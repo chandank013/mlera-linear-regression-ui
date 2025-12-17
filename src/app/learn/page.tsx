@@ -492,32 +492,18 @@ export default function LearnPage() {
                         </ChartContainer>
                     </CardContent>
                     <CardFooter className="flex-col items-start gap-4 p-4 bg-secondary/50">
-                        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                             <div className="w-full space-y-2">
-                                <div className="flex justify-between items-center text-sm">
-                                    <Label htmlFor="intercept" className="text-muted-foreground">Intercept (β&#x2080;): <span className="font-bold text-primary">{intercept}</span></Label>
-                                </div>
+                                <Label htmlFor="intercept" className="text-muted-foreground">Intercept (β&#x2080;): <span className="font-bold text-primary">{intercept}</span></Label>
                                 <Slider id="intercept" value={[intercept]} onValueChange={(v) => setIntercept(v[0])} min={-50} max={50} step={1} />
                             </div>
                             <div className="w-full space-y-2">
-                                <div className="flex justify-between items-center text-sm">
-                                    <Label htmlFor="slope" className="text-muted-foreground">Slope (β&#x2081;): <span className="font-bold text-primary">{slope}</span></Label>
-                                </div>
+                                <Label htmlFor="slope" className="text-muted-foreground">Slope (β&#x2081;): <span className="font-bold text-primary">{slope}</span></Label>
                                 <Slider id="slope" value={[slope]} onValueChange={(v) => setSlope(v[0])} min={-10} max={20} step={0.5} />
                             </div>
-                        </div>
-                        <div className="w-full text-center mt-4">
-                            <p className="text-muted-foreground">Mean Squared Error: <span className="font-bold text-lg text-destructive">{mse}</span></p>
-                        </div>
-                        <div className="mt-4 text-muted-foreground text-sm space-y-2">
-                            <p>As you adjust the sliders, observe how the regression line changes:</p>
-                            <ul className="list-disc pl-5 space-y-1">
-                                <li>The intercept moves the line up or down (where it crosses the y-axis)</li>
-                                <li>The slope changes how steep the line is (positive slopes go up, negative slopes go down)</li>
-                            </ul>
-                        </div>
-                        <div className="mt-4 p-4 rounded-lg bg-accent border-l-4 border-primary">
-                            <p className="text-sm text-accent-foreground">Notice that some lines fit the data better than others. The best line is the one that minimizes the total error between the line and the actual data points.</p>
+                             <div className="w-full text-center">
+                                <p className="text-muted-foreground">Mean Squared Error: <span className="font-bold text-lg text-yellow-400">{mse}</span></p>
+                            </div>
                         </div>
                     </CardFooter>
                 </Card>
