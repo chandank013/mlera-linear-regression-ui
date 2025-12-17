@@ -328,6 +328,45 @@ export default function LearnPage() {
                 </div>
             </CardContent>
           </Card>
+          <Card className="bg-card">
+            <CardContent className="p-6">
+                <h2 className="flex items-center text-2xl font-semibold mb-4">
+                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mr-4">
+                        6
+                    </span>
+                    Gradient Descent
+                </h2>
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                    Gradient Descent is an <span className="text-accent-foreground font-semibold">iterative optimization algorithm</span>. It starts with random initial values for β₀ and β₁, and gradually updates them to minimize the cost.
+                </p>
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                    The update rules are:
+                </p>
+
+                <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6 font-mono tracking-wider text-accent-foreground">
+                    <p className="text-xl">
+                    β₁ := β₁ - α <sup>∂J</sup>&frasl;<sub>∂β₁</sub> = β₁ - α <sup>1</sup>&frasl;<sub>m</sub> &Sigma; (ŷᵢ - yᵢ) &middot; xᵢ
+                    </p>
+                </div>
+                <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6 font-mono tracking-wider text-accent-foreground">
+                    <p className="text-xl">
+                    β₀ := β₀ - α <sup>∂J</sup>&frasl;<sub>∂β₀</sub> = β₀ - α <sup>1</sup>&frasl;<sub>m</sub> &Sigma; (ŷᵢ - yᵢ)
+                    </p>
+                </div>
+
+                <div className="space-y-4 mb-6 relative pl-6">
+                   <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary/20 rounded-full"></div>
+                    <h3 className="font-semibold text-lg">Where:</h3>
+                    <ul className="space-y-2 text-muted-foreground">
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">α</span> is the learning rate (step size)</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">m</span> is the number of training examples</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">ŷᵢ</span> is the predicted value for the i-th example</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">yᵢ</span> is the actual value for the i-th example</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">xᵢ</span> is the feature value for the i-th example</li>
+                    </ul>
+                </div>
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>
