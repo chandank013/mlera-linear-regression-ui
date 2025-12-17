@@ -195,8 +195,9 @@ export default function BuildPage() {
     const xMean = x.reduce((a, b) => a + b, 0) / x.length;
     const xStd = Math.sqrt(x.map(val => (val - xMean) ** 2).reduce((a, b) => a + b, 0) / x.length);
     
-    const xMin = Math.min(...x);
-    const xMax = Math.max(...x);
+    const xValues = x;
+    const xMin = Math.min(...xValues);
+    const xMax = Math.max(...xValues);
 
     const yMin = b0 + b1 * ((xMin - xMean) / xStd);
     const yMax = b0 + b1 * ((xMax - xMean) / xStd);
@@ -474,7 +475,7 @@ export default function BuildPage() {
                             className="w-full max-w-md"
                         />
                         <Button onClick={() => setCurrentStep(s => Math.min(iterations - 1, s + 10))} disabled={currentStep >= iterations - 1}>Next</Button>
-                         <p className="text-sm text-muted-foreground min-w-[100px]">Iteration: {currentStep + 1} / {iterations}</p>
+                        <p className="text-sm text-muted-foreground min-w-[100px]">Iteration: {currentStep + 1} / {iterations}</p>
                         <Button variant="outline" onClick={() => setIsPlaying(!isPlaying)} className="w-[100px]">
                            {isPlaying ? (
                                 <>
