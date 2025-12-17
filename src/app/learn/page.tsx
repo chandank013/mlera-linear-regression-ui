@@ -403,13 +403,43 @@ export default function LearnPage() {
                 </p>
 
                 <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6 font-mono tracking-wider text-accent-foreground">
-                    <p className="text-xl">
-                    β&#x2081; := β&#x2081; - α (1/m) &Sigma; (ŷ&#x1D62; - y&#x1D62;) &middot; x&#x1D62;
+                    <p className="text-xl flex items-center justify-center">
+                        <span>β&#x2081; := β&#x2081; - α</span>
+                        <span className="flex flex-col mx-2">
+                           <span className="border-b border-current pb-1">∂J</span>
+                           <span>∂β&#x2081;</span>
+                        </span>
+                        <span>= β&#x2081; - α</span>
+                        <span className="flex flex-col mx-2 text-lg">
+                           <span className="border-b border-current pb-1">1</span>
+                           <span>m</span>
+                        </span>
+                        <span className="text-4xl mx-1">&Sigma;</span>
+                        <span className="flex flex-col text-sm -mt-3 -ml-2">
+                           <span>m</span>
+                           <span>i=1</span>
+                        </span>
+                        <span>(ŷ&#x1D62; - y&#x1D62;) &middot; x&#x1D62;</span>
                     </p>
                 </div>
                 <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6 font-mono tracking-wider text-accent-foreground">
-                    <p className="text-xl">
-                    β&#x2080; := β&#x2080; - α (1/m) &Sigma; (ŷ&#x1D62; - y&#x1D62;)
+                   <p className="text-xl flex items-center justify-center">
+                        <span>β&#x2080; := β&#x2080; - α</span>
+                        <span className="flex flex-col mx-2">
+                           <span className="border-b border-current pb-1">∂J</span>
+                           <span>∂β&#x2080;</span>
+                        </span>
+                        <span>= β&#x2080; - α</span>
+                        <span className="flex flex-col mx-2 text-lg">
+                           <span className="border-b border-current pb-1">1</span>
+                           <span>m</span>
+                        </span>
+                        <span className="text-4xl mx-1">&Sigma;</span>
+                        <span className="flex flex-col text-sm -mt-3 -ml-2">
+                           <span>m</span>
+                           <span>i=1</span>
+                        </span>
+                        <span>(ŷ&#x1D62; - y&#x1D62;)</span>
                     </p>
                 </div>
 
