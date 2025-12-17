@@ -50,7 +50,6 @@ mlera-linear-regression-ui/
 ├── docs/                 # Assignment docs / references
 ├── node_modules/         # Dependencies
 ├── src/
-│   ├── ai/               # (Optional) AI-related helpers or placeholders
 │   ├── app/              # Next.js App Router pages & layouts
 │   ├── components/       # Reusable UI components
 │   ├── hooks/            # Custom React hooks
