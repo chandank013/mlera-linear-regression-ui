@@ -334,10 +334,14 @@ export default function BuildPage() {
                     <CardContent className="bg-secondary/30 p-4">
                       <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
                         <ResponsiveContainer>
-                          <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis type="number" dataKey={xKey} name={xKey} allowDuplicatedCategory={false} />
-                            <YAxis type="number" dataKey={yKey} name={yKey} />
+                          <ScatterChart margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.3)" />
+                             <XAxis type="number" dataKey={xKey} name={xKey} allowDuplicatedCategory={false}>
+                                <Label value={xKey} offset={-15} position="insideBottom" />
+                            </XAxis>
+                            <YAxis type="number" dataKey={yKey} name={yKey} >
+                                <Label value={yKey} angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
+                            </YAxis>
                             <ChartTooltip cursor={{ strokeDasharray: '3 3' }} content={<ChartTooltipContent />} />
                             <Legend />
                             <Scatter name="Data Points" data={currentDataset.data} fill="var(--color-data)" />
@@ -471,11 +475,20 @@ export default function BuildPage() {
                         />
                         <Button onClick={() => setCurrentStep(s => Math.min(iterations - 1, s + 1))} disabled={currentStep === iterations - 1}>Next</Button>
                         <div className="flex items-center gap-2">
-                            <p className="text-sm text-muted-foreground min-w-[100px]">Iteration: {currentStep + 1} / {iterations}</p>
-                            <Button variant="outline" size="icon" onClick={() => setIsPlaying(!isPlaying)}>
-                                {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                                <span className="sr-only">{isPlaying ? "Pause" : "Play"}</span>
+                             <Button variant="outline" onClick={() => setIsPlaying(!isPlaying)} className="w-[100px]">
+                                {isPlaying ? (
+                                    <>
+                                        <Pause className="h-4 w-4 mr-2" />
+                                        Pause
+                                    </>
+                                ) : (
+                                    <>
+                                        <Play className="h-4 w-4 mr-2" />
+                                        Play
+                                    </>
+                                )}
                             </Button>
+                            <p className="text-sm text-muted-foreground min-w-[100px]">Iteration: {currentStep + 1} / {iterations}</p>
                         </div>
                     </div>
                 </div>
@@ -487,10 +500,14 @@ export default function BuildPage() {
                       <CardContent className="bg-secondary/30 p-4">
                         <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
                           <ResponsiveContainer>
-                            <ComposedChart data={currentDataset.data} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-                              <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis type="number" dataKey={xKey} name={xKey} allowDuplicatedCategory={false} />
-                              <YAxis type="number" dataKey={yKey} name={yKey} />
+                             <ComposedChart data={currentDataset.data} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
+                              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.3)" />
+                              <XAxis type="number" dataKey={xKey} name={xKey} allowDuplicatedCategory={false}>
+                                <Label value={xKey} offset={-15} position="insideBottom" />
+                              </XAxis>
+                              <YAxis type="number" dataKey={yKey} name={yKey}>
+                                <Label value={yKey} angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
+                              </YAxis>
                               <ChartTooltip content={<ChartTooltipContent />} />
                               <Legend />
                               <Scatter name="Data Points" dataKey={yKey} fill="var(--color-data)" />
@@ -507,10 +524,14 @@ export default function BuildPage() {
                       <CardContent className="bg-secondary/30 p-4">
                         <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
                            <ResponsiveContainer>
-                            <AreaChart data={costData.slice(0, currentStep + 1)} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-                              <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis type="number" dataKey="iteration" name="Iteration" />
-                              <YAxis type="number" dataKey="cost" name="Cost" />
+                            <AreaChart data={costData.slice(0, currentStep + 1)} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
+                              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.3)" />
+                               <XAxis type="number" dataKey="iteration" name="Iteration" >
+                                 <Label value="Iteration" offset={-15} position="insideBottom" />
+                               </XAxis>
+                                <YAxis type="number" dataKey="cost" name="Cost" >
+                                  <Label value="Cost" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
+                                </YAxis>
                               <ChartTooltip content={<ChartTooltipContent />} />
                               <Legend />
                               <Area type="monotone" dataKey="cost" stroke="var(--color-cost)" fill="var(--color-cost)" fillOpacity={0.3} />
