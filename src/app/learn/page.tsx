@@ -264,9 +264,20 @@ export default function LearnPage() {
                     </p>
                 </div>
 
-                <p className="text-muted-foreground leading-relaxed">
-                  We&apos;ve defined the cost function (typically Mean Squared Error), the next step in Linear Regression is to minimize this error by finding the optimal values of the parameters.
-                </p>
+                <div className="text-muted-foreground leading-relaxed space-y-4">
+                  <p>
+                    We&apos;ve defined the cost function (typically Mean Squared Error), the next step in Linear Regression is to minimize this error by finding the optimal values of the parameters:
+                  </p>
+                  <ul className="space-y-2 text-muted-foreground pl-4">
+                      <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">β₀</span> (intercept)</li>
+                      <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">β₁</span> (slope)</li>
+                  </ul>
+                  <p>There are two main techniques used to find these optimal parameters:</p>
+                  <ol className="list-decimal list-inside text-accent-foreground font-semibold space-y-2">
+                    <li>Ordinary Least Square (OLS)</li>
+                    <li>Gradient Descent</li>
+                  </ol>
+                </div>
             </CardContent>
           </Card>
         </div>
