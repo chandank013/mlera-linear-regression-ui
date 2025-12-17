@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { ChevronLeft, FlaskConical, Pause, Play } from "lucide-react";
+import { ArrowRight, ChevronLeft, FlaskConical, Pause, Play } from "lucide-react";
 import React from 'react';
 import {
   Select,
@@ -577,6 +577,22 @@ export default function BuildPage() {
 
             </CardContent>
           </Card>
+        </div>
+        <div className="mt-12">
+            <Card className="bg-primary/5 dark:bg-primary/10 border-primary/20">
+                <CardContent className="p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
+                <div>
+                    <p className="text-sm font-semibold text-primary">Coming Up Next:</p>
+                    <h3 className="text-2xl font-bold mt-1">Quiz on Linear Regression</h3>
+                    <p className="text-muted-foreground mt-2">Here&apos;s a short quiz to follow your interactive model page</p>
+                </div>
+                <Link href="#" className="mt-4 md:mt-0">
+                    <Button>
+                    Continue <ArrowRight className="ml-2" />
+                    </Button>
+                </Link>
+                </CardContent>
+            </Card>
         </div>
       </main>
     </div>
