@@ -115,6 +115,7 @@ export default function BuildPage() {
   const [trainingHistory, setTrainingHistory] = React.useState<TrainingStep[]>([]);
   const [currentStep, setCurrentStep] = React.useState(0);
   const [isPlaying, setIsPlaying] = React.useState(false);
+  const [costDomain, setCostDomain] = React.useState([0, 1]);
 
   const currentDataset = datasets[selectedDataset];
   const xKey = currentDataset.columns[0];
@@ -176,6 +177,9 @@ export default function BuildPage() {
       
       history.push({ iteration: i + 1, b0, b1, cost: cost / (2 * n) });
     }
+    
+    const maxCost = Math.max(...history.map(s => s.cost));
+    setCostDomain([0, maxCost]);
 
     setTrainingHistory(history);
     setCurrentStep(0);
@@ -226,12 +230,6 @@ export default function BuildPage() {
      if (!isModelBuilt) return [];
      return trainingHistory.map(step => ({ iteration: step.iteration, cost: step.cost }));
   }, [trainingHistory, isModelBuilt]);
-  
-  const costDomain = React.useMemo(() => {
-    if (trainingHistory.length === 0) return [0, 1];
-    const maxCost = Math.max(...trainingHistory.map(s => s.cost));
-    return [0, maxCost];
-  }, [trainingHistory]);
 
 
   return (
@@ -526,13 +524,13 @@ export default function BuildPage() {
               <div className="grid md:grid-cols-2 gap-8 mt-6">
                 <div>
                   <h3 className="text-xl font-bold text-center mb-4">
-                    {isModelBuilt ? `Linear Regression Model (Iteration ${currentStep + 1})` : 'Linear Regression Model - Build a model to see results'}
+                    {isModelBuilt ? `Linear Regression Model (Iteration ${currentStep + 1})` : 'Linear Regression Model'}
                   </h3>
                   <Card className="overflow-hidden">
                     <CardContent className="bg-secondary/30 p-4">
                       <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
                         <ResponsiveContainer>
-                          <ComposedChart data={isModelBuilt ? currentDataset.data : []} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
+                          <ComposedChart data={currentDataset.data} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
                             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.5)" />
                             <XAxis type="number" dataKey={xKey} name={xKey} allowDuplicatedCategory={false} domain={xDomain}>
                               <Label value={xKey} offset={-15} position="insideBottom" />
@@ -552,7 +550,7 @@ export default function BuildPage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-center mb-4">
-                    {isModelBuilt ? `Cost vs Iteration (Iteration ${currentStep + 1})` : 'Parameter vs Cost - Build a model to see results'}
+                    {isModelBuilt ? `Cost vs Iteration (Iteration ${currentStep + 1})` : 'Parameter vs Cost'}
                   </h3>
                   <Card className="overflow-hidden">
                     <CardContent className="bg-secondary/30 p-4">
