@@ -11,18 +11,21 @@ const content = [
     title: "What is Linear Regression?",
     description: "The foundational algorithm.",
     body: "Linear regression is a statistical method used to model the relationship between a dependent variable and one or more independent variables by fitting a linear equation to observed data.",
+    href: "/learn"
   },
   {
     icon: LineChart,
     title: "The Core Concept",
     description: "Finding the best fit.",
     body: "The goal is to find the straight line (hyperplane in higher dimensions) that best predicts the output `y` from the input `x`. This line is defined by its slope and intercept.",
+    href: "/learn"
   },
   {
     icon: Table2,
-    title: "Real-World Use Cases",
+    title: "Build your own",
     description: "From finance to biology.",
     body: "It's widely used for predicting outcomes like stock prices, sales forecasts, crop yields, and medical diagnoses based on historical data and relevant factors.",
+    href: "/build"
   },
 ];
 
@@ -50,11 +53,18 @@ export default function Home() {
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
               An interactive introduction to one of the most fundamental concepts in machine learning. Understand the theory, then build it yourself.
             </p>
-            <Link href="/build">
-              <Button size="lg">
-                Build a Model <ArrowRight className="ml-2" />
-              </Button>
-            </Link>
+            <div className="flex gap-4 justify-center">
+              <Link href="/learn">
+                <Button size="lg">
+                  Start Learning <ArrowRight className="ml-2" />
+                </Button>
+              </Link>
+              <Link href="/build">
+                <Button size="lg" variant="outline">
+                  Build a Model
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -69,22 +79,24 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {content.map((item, index) => (
-              <Card key={index} className="flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-accent/20 rounded-full">
-                      <item.icon className="h-6 w-6 text-primary" />
+              <Link href={item.href} key={index}>
+                <Card  className="flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-2 h-full">
+                  <CardHeader>
+                    <div className="flex items-center gap-4">
+                      <div className="p-3 bg-accent/20 rounded-full">
+                        <item.icon className="h-6 w-6 text-primary" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl">{item.title}</CardTitle>
+                        <CardDescription>{item.description}</CardDescription>
+                      </div>
                     </div>
-                    <div>
-                      <CardTitle className="text-xl">{item.title}</CardTitle>
-                      <CardDescription>{item.description}</CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <p className="text-muted-foreground">{item.body}</p>
-                </CardContent>
-              </Card>
+                  </CardHeader>
+                  <CardContent className="flex-grow">
+                    <p className="text-muted-foreground">{item.body}</p>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>

@@ -6,10 +6,17 @@ import { Logo } from "@/components/icons"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { cn } from "@/lib/utils"
 import { Button } from "../ui/button"
+import Image from "next/image"
+import { Avatar, AvatarFallback } from "../ui/avatar"
 
 const navLinks = [
-  { href: "/", label: "Learn" },
-  { href: "/build", label: "Build" },
+  { href: "/", label: "Home" },
+  { href: "/learn", label: "Learning Path" },
+  { href: "#", label: "Challenges" },
+  { href: "#", label: "My Courses" },
+  { href: "#", label: "Achievements" },
+  { href: "#", label: "Buddy" },
+  { href: "#", label: "Lexicon" },
 ]
 
 export function Navbar() {
@@ -18,19 +25,19 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
-        <div className="mr-4 flex items-center">
+        <div className="mr-4 hidden md:flex items-center">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <Logo className="h-6 w-6 text-primary" />
             <span className="font-bold">MLera</span>
           </Link>
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+          <nav className="flex items-center space-x-6 text-sm font-medium">
             {navLinks.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
                 className={cn(
                   "transition-colors hover:text-foreground/80",
-                  pathname === href ? "text-foreground" : "text-foreground/60"
+                  (pathname === href || (href !== "/" && pathname.startsWith(href))) ? "text-foreground" : "text-foreground/60"
                 )}
               >
                 {label}
@@ -39,14 +46,20 @@ export function Navbar() {
           </nav>
         </div>
 
-        <div className="flex flex-1 items-center justify-end space-x-2">
-          <ThemeToggle />
+        <div className="md:hidden mr-4 flex items-center">
+           <Link href="/" className="mr-6 flex items-center space-x-2">
+            <Logo className="h-6 w-6 text-primary" />
+            <span className="font-bold">MLera</span>
+          </Link>
         </div>
 
-        <div className="md:hidden flex items-center ml-4">
-            <Link href="/build">
-                <Button variant="outline" size="sm">Build</Button>
-            </Link>
+
+        <div className="flex flex-1 items-center justify-end space-x-4">
+          <ThemeToggle />
+          <Avatar className="h-8 w-8">
+            <Image src="https://picsum.photos/seed/user-avatar/32/32" alt="User avatar" width={32} height={32} />
+            <AvatarFallback>U</AvatarFallback>
+          </Avatar>
         </div>
       </div>
     </header>
