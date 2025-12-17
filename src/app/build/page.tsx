@@ -459,24 +459,24 @@ export default function BuildPage() {
                 </p>
 
                 <div className="flex flex-col items-center gap-4 mb-6">
+                    <Slider
+                        value={[currentStep]}
+                        onValueChange={(vals) => setCurrentStep(vals[0])}
+                        min={0}
+                        max={iterations - 1}
+                        step={1}
+                        className="w-full"
+                    />
                     <div className='flex items-center justify-between w-full gap-4'>
                         <Button onClick={() => setCurrentStep(s => Math.max(0, s - 1))} disabled={currentStep === 0}>Previous</Button>
-                        <Slider
-                            value={[currentStep]}
-                            onValueChange={(vals) => setCurrentStep(vals[0])}
-                            min={0}
-                            max={iterations - 1}
-                            step={1}
-                            className="w-full"
-                        />
+                        <div className="flex items-center gap-4">
+                            <p className="text-sm text-muted-foreground">Iteration: {currentStep + 1} / {iterations}</p>
+                            <Button variant="outline" size="icon" onClick={() => setIsPlaying(!isPlaying)}>
+                                {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                                <span className="sr-only">{isPlaying ? "Pause" : "Play"}</span>
+                            </Button>
+                        </div>
                         <Button onClick={() => setCurrentStep(s => Math.min(iterations - 1, s + 1))} disabled={currentStep === iterations - 1}>Next</Button>
-                    </div>
-                    <div className='flex items-center gap-4'>
-                        <p className="text-sm text-muted-foreground">Iteration: {currentStep + 1} / {iterations}</p>
-                        <Button variant="outline" size="icon" onClick={() => setIsPlaying(!isPlaying)}>
-                            {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                            <span className="sr-only">{isPlaying ? "Pause" : "Play"}</span>
-                        </Button>
                     </div>
                 </div>
 
@@ -531,5 +531,3 @@ export default function BuildPage() {
     </div>
   );
 }
-
-    
