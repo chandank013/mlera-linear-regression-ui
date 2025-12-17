@@ -75,8 +75,8 @@ export default function LearnPage() {
 
         <div className="flex justify-between items-center mb-8 gap-4">
           <div className="w-full">
-            <p className="text-sm text-muted-foreground mb-2">Module progress: 2 / 5</p>
-            <Progress value={40} className="h-2" />
+            <p className="text-sm text-muted-foreground mb-2">Module progress: 3 / 5</p>
+            <Progress value={60} className="h-2" />
           </div>
           <Button variant="outline">
             <ChevronLeft className="mr-2" />
@@ -219,6 +219,54 @@ export default function LearnPage() {
                   Our goal in linear regression is to find the values of <span className="font-mono text-accent-foreground">β₀</span> and <span className="font-mono text-accent-foreground">β₁</span> (or all the <span className="font-mono text-accent-foreground">β</span> coefficients in multiple regression) that <span className="text-accent-foreground font-semibold">&quot;best fit&quot;</span> our data. But what does <span className="text-accent-foreground font-semibold">&quot;best fit&quot;</span> mean mathematically? That&apos;s where the cost function comes in.
                 </p>
               </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-card">
+              <CardContent className="p-6">
+                <h2 className="flex items-center text-2xl font-semibold mb-4">
+                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mr-4">
+                    4
+                  </span>
+                  Understanding the Cost Function (MSE)
+                </h2>
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                  To find the best-fitting line, we need a way to measure how well any given line fits our data. The cost function quantifies how &quot;wrong&quot; our model&apos;s predictions are compared to the actual values. In linear regression, we typically use the Mean Squared Error (MSE) as our cost function.
+                </p>
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                  For a dataset with n observations, the MSE is calculated as:
+                </p>
+                
+                <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6 relative">
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-lg"></div>
+                    <p className="text-xl font-mono tracking-wider text-accent-foreground">
+                        MSE = <sup>1</sup>&frasl;<sub>n</sub> &Sigma; (yᵢ - ŷᵢ)²
+                    </p>
+                </div>
+
+                <div className="space-y-4 mb-6 relative pl-6">
+                   <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary/20 rounded-full"></div>
+                    <h3 className="font-semibold text-lg">Where:</h3>
+                    <ul className="space-y-2 text-muted-foreground">
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">n</span> is the number of observations</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">yᵢ</span> is the actual value of the dependent variable for observation i</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">ŷᵢ</span> is the predicted value for observation i</li>
+                    </ul>
+                </div>
+                
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                    Substituting our linear regression equation into MSE formula:
+                </p>
+
+                <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6 relative">
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-lg"></div>
+                    <p className="text-xl font-mono tracking-wider text-accent-foreground">
+                        MSE = <sup>1</sup>&frasl;<sub>n</sub> &Sigma; (yᵢ - (β₀ + β₁xᵢ))²
+                    </p>
+                </div>
+
+                <p className="text-muted-foreground leading-relaxed">
+                  We&apos;ve defined the cost function (typically Mean Squared Error), the next step in Linear Regression is to minimize this error by finding the optimal values of the parameters.
+                </p>
             </CardContent>
           </Card>
         </div>
