@@ -10,7 +10,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { ChevronLeft } from "lucide-react";
 import React from 'react';
@@ -23,6 +23,8 @@ import {
 } from "@/components/ui/select"
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { CartesianGrid, Legend, ResponsiveContainer, Scatter, ScatterChart, XAxis, YAxis } from 'recharts';
 
 const datasets = {
   "sales-revenue": {
@@ -54,12 +56,27 @@ const datasets = {
     description: "This dataset illustrates the relationship between years of professional experience and annual salary (in dollars). It shows how career progression and accumulated experience typically result in higher compensation, making it excellent for understanding career growth patterns.",
     data: [
         { "Years of Experience": 1, "Salary ($)": 40000 },
-        { "Years of Experience": 2, "Salary ($)": 45000 },
         { "Years of Experience": 3, "Salary ($)": 48000 },
-        { "Years of Experience": 4, "Salary ($)": 50000 },
         { "Years of Experience": 5, "Salary ($)": 60000 },
+        { "Years of Experience": 2, "Salary ($)": 45000 },
+        { "Years of Experience": 8, "Salary ($)": 65000 },
+        { "Years of Experience": 10, "Salary ($)": 75000 },
+        { "Years of Experience": 12, "Salary ($)": 80000 },
+        { "Years of Experience": 4, "Salary ($)": 50000 },
+        { "Years of Experience": 9, "Salary ($)": 70000 },
+        { "Years of Experience": 11, "Salary ($)": 78000 },
+        { "Years of Experience": 6, "Salary ($)": 62000 },
+        { "Years Experience": 15, "Salary ($)": 90000 },
+        { "Years of Experience": 14, "Salary ($)": 85000 },
     ],
     columns: ["Years of Experience", "Salary ($)"]
+  },
+};
+
+const chartConfig = {
+  data: {
+    label: "Data Points",
+    color: "hsl(var(--chart-2))",
   },
 };
 
@@ -68,6 +85,9 @@ export default function BuildPage() {
   const [showTable, setShowTable] = React.useState(false);
 
   const currentDataset = datasets[selectedDataset];
+
+  const xKey = currentDataset.columns[0];
+  const yKey = currentDataset.columns[1];
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-12 max-w-5xl">
@@ -184,6 +204,25 @@ export default function BuildPage() {
                     </Card>
                   </div>
                 )}
+                 <div className="mt-6 space-y-4">
+                  <h3 className="text-xl font-bold text-center">{currentDataset.name} Preview</h3>
+                   <Card className="overflow-hidden">
+                    <CardContent className="bg-secondary/30 p-4">
+                      <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
+                        <ResponsiveContainer>
+                          <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" dataKey={xKey} name={xKey} />
+                            <YAxis type="number" dataKey={yKey} name={yKey} />
+                            <ChartTooltip cursor={{ strokeDasharray: '3 3' }} content={<ChartTooltipContent />} />
+                            <Legend />
+                            <Scatter name="Data Points" data={currentDataset.data} fill="var(--color-data)" />
+                          </ScatterChart>
+                        </ResponsiveContainer>
+                      </ChartContainer>
+                    </CardContent>
+                  </Card>
+                </div>
               </div>
             </CardContent>
           </Card>
