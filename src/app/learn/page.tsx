@@ -330,7 +330,7 @@ export default function LearnPage() {
           </Card>
           <Card className="bg-card">
             <CardContent className="p-6">
-                <h2 className="flex items-center text-2xl font-semibold mb-4">
+                <h2 className="flex items-center text2xl font-semibold mb-4">
                     <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mr-4">
                         6
                     </span>
@@ -365,6 +365,34 @@ export default function LearnPage() {
                         <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">xᵢ</span> is the feature value for the i-th example</li>
                     </ul>
                 </div>
+                
+                <div className="grid md:grid-cols-2 gap-6 my-6">
+                    <div className="p-6 rounded-lg bg-green-500/10 border-l-4 border-green-500">
+                        <h3 className="font-semibold text-lg text-green-400 mb-4 flex items-center gap-2"><Lightbulb className="w-5 h-5"/> Pros:</h3>
+                        <ul className="space-y-2 text-muted-foreground">
+                            <li className="flex items-start gap-2"><Check className="text-green-500 mt-1 flex-shrink-0" /> Scales well to large datasets and high dimensions</li>
+                            <li className="flex items-start gap-2"><Check className="text-green-500 mt-1 flex-shrink-0" /> Allows for online learning (data coming in streams)</li>
+                        </ul>
+                    </div>
+                     <div className="p-6 rounded-lg bg-red-500/10 border-l-4 border-red-500">
+                        <h3 className="font-semibold text-lg text-red-400 mb-4 flex items-center gap-2"><TriangleAlert className="w-5 h-5" /> Cons:</h3>
+                        <ul className="space-y-2 text-muted-foreground">
+                            <li className="flex items-start gap-2"><XIcon className="text-red-500 mt-1 flex-shrink-0" /> Requires tuning of learning rate</li>
+                            <li className="flex items-start gap-2"><XIcon className="text-red-500 mt-1 flex-shrink-0" /> May get stuck in local minima (though MSE has a convex surface, so for linear regression, this is less of a problem)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div className="p-6 rounded-lg bg-secondary/50 border-l-4 border-yellow-400/80">
+                    <h3 className="font-semibold text-lg text-yellow-400 mb-2">Intuitive Explanation</h3>
+                    <p className="text-muted-foreground leading-relaxed mb-4">Think of gradient descent as descending a hill to find the lowest point (minimum). At each step:</p>
+                    <ol className="list-decimal list-inside text-muted-foreground space-y-2">
+                        <li>Look around to find the steepest downward direction (gradient)</li>
+                        <li>Take a step in that direction (parameter update)</li>
+                        <li>Repeat until you reach the bottom (convergence)</li>
+                    </ol>
+                </div>
+
             </CardContent>
           </Card>
         </div>
