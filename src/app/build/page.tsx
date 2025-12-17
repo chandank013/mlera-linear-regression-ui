@@ -27,7 +27,15 @@ const datasets = {
   "sales-revenue": {
     name: "Sales Revenue",
     description: "This dataset shows the relationship between marketing budget (in thousands of dollars) and sales revenue (in thousands of dollars). It demonstrates how increased marketing investment typically leads to higher sales revenue, making it ideal for understanding positive linear correlation in business contexts.",
-  }
+  },
+  "housing-price": {
+    name: "Housing Price",
+    description: "This dataset contains information about house prices and their features. It's a classic dataset for exploring how variables like square footage, number of bedrooms, and location influence the final sale price of a house.",
+  },
+  "salary-experience": {
+    name: "Salary vs Experience",
+    description: "This dataset illustrates the relationship between years of professional experience and annual salary (in dollars). It shows how career progression and accumulated experience typically result in higher compensation, making it excellent for understanding career growth patterns.",
+  },
 };
 
 export default function BuildPage() {
