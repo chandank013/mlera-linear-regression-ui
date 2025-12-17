@@ -14,8 +14,25 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { ChevronLeft } from "lucide-react";
 import React from 'react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Label } from '@/components/ui/label';
+
+const datasets = {
+  "sales-revenue": {
+    name: "Sales Revenue",
+    description: "This dataset shows the relationship between marketing budget (in thousands of dollars) and sales revenue (in thousands of dollars). It demonstrates how increased marketing investment typically leads to higher sales revenue, making it ideal for understanding positive linear correlation in business contexts.",
+  }
+};
 
 export default function BuildPage() {
+  const [selectedDataset, setSelectedDataset] = React.useState("sales-revenue");
+
   return (
     <div className="container mx-auto px-4 md:px-6 py-12 max-w-5xl">
       <header className="mb-8">
@@ -66,6 +83,44 @@ export default function BuildPage() {
               <p className="text-muted-foreground leading-relaxed">
                 In this interactive module, you&apos;ll build a linear regression model using different datasets. Select a dataset, adjust the learning rate and number of iterations, then click &quot;Build&quot; to train your model. Watch how the model converges as you navigate through the training process.
               </p>
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-card">
+            <CardContent className="p-6">
+              <h2 className="flex items-center text-2xl font-semibold mb-4">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mr-4">
+                  2
+                </span>
+                Visualizing the Relationship
+              </h2>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="dataset" className="text-sm font-medium">Select a Dataset:</Label>
+                   <Select value={selectedDataset} onValueChange={setSelectedDataset}>
+                    <SelectTrigger id="dataset" className="w-full mt-2">
+                      <SelectValue placeholder="Select a dataset" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.entries(datasets).map(([key, value]) => (
+                        <SelectItem key={key} value={key}>{value.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                   <Label className="text-sm font-medium text-muted-foreground">Dataset Description</Label>
+                   <div className="mt-2 p-4 rounded-lg bg-secondary/50 border border-border">
+                      <h3 className="font-semibold text-accent-foreground">{datasets[selectedDataset as keyof typeof datasets].name} Dataset:</h3>
+                      <p className="text-muted-foreground mt-1 leading-relaxed">{datasets[selectedDataset as keyof typeof datasets].description}</p>
+                   </div>
+                </div>
+
+                <p className="text-muted-foreground text-sm">Choose a dataset to see its scatter plot. This will help you understand the relationship between variables before building the model.</p>
+                
+                <Button className="w-full" variant="destructive">View Dataset Table</Button>
+              </div>
             </CardContent>
           </Card>
         </div>
