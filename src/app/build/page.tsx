@@ -120,6 +120,22 @@ export default function BuildPage() {
   const xKey = currentDataset.columns[0];
   const yKey = currentDataset.columns[1];
 
+  const { xDomain, yDomain } = React.useMemo(() => {
+    const xValues = currentDataset.data.map(d => (d as any)[xKey]);
+    const yValues = currentDataset.data.map(d => (d as any)[yKey]);
+    const xMin = Math.min(...xValues);
+    const xMax = Math.max(...xValues);
+    const yMin = Math.min(...yValues);
+    const yMax = Math.max(...yValues);
+    const xPadding = (xMax - xMin) * 0.1;
+    const yPadding = (yMax - yMin) * 0.1;
+
+    return {
+      xDomain: [Math.floor(xMin - xPadding), Math.ceil(xMax + xPadding)],
+      yDomain: [Math.floor(yMin - yPadding), Math.ceil(yMax + yPadding)]
+    };
+  }, [currentDataset, xKey, yKey]);
+
   const handleBuildModel = () => {
     let b0 = 0;
     let b1 = 0;
@@ -210,6 +226,12 @@ export default function BuildPage() {
      if (!isModelBuilt) return [];
      return trainingHistory.map(step => ({ iteration: step.iteration, cost: step.cost }));
   }, [trainingHistory, isModelBuilt]);
+  
+  const costDomain = React.useMemo(() => {
+    if (trainingHistory.length === 0) return [0, 1];
+    const maxCost = Math.max(...trainingHistory.map(s => s.cost));
+    return [0, maxCost];
+  }, [trainingHistory]);
 
 
   return (
@@ -338,10 +360,10 @@ export default function BuildPage() {
                         <ResponsiveContainer>
                           <ScatterChart margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
                             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.5)" />
-                             <XAxis type="number" dataKey={xKey} name={xKey} allowDuplicatedCategory={false}>
+                             <XAxis type="number" dataKey={xKey} name={xKey} allowDuplicatedCategory={false} domain={xDomain}>
                                 <Label value={xKey} offset={-15} position="insideBottom" />
                             </XAxis>
-                            <YAxis type="number" dataKey={yKey} name={yKey} >
+                            <YAxis type="number" dataKey={yKey} name={yKey} domain={yDomain}>
                                 <Label value={yKey} angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
                             </YAxis>
                             <ChartTooltip cursor={{ strokeDasharray: '3 3' }} content={<ChartTooltipContent />} />
@@ -512,11 +534,11 @@ export default function BuildPage() {
                         <ResponsiveContainer>
                           <ComposedChart data={isModelBuilt ? currentDataset.data : []} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
                             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.5)" />
-                            <XAxis type="number" dataKey={xKey} name={xKey} allowDuplicatedCategory={false} domain={['dataMin', 'dataMax']}>
-                              <Label value={isModelBuilt ? xKey : 'X Values'} offset={-15} position="insideBottom" />
+                            <XAxis type="number" dataKey={xKey} name={xKey} allowDuplicatedCategory={false} domain={xDomain}>
+                              <Label value={xKey} offset={-15} position="insideBottom" />
                             </XAxis>
-                            <YAxis type="number" dataKey={yKey} name={yKey} domain={['dataMin', 'dataMax']}>
-                              <Label value={isModelBuilt ? yKey: 'Y Values'} angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
+                            <YAxis type="number" dataKey={yKey} name={yKey} domain={yDomain}>
+                              <Label value={yKey} angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
                             </YAxis>
                             <ChartTooltip content={<ChartTooltipContent />} />
                             <Legend verticalAlign="top" wrapperStyle={{paddingBottom: "10px"}}/>
@@ -538,10 +560,10 @@ export default function BuildPage() {
                         <ResponsiveContainer>
                           <AreaChart data={isModelBuilt ? costData.slice(0, currentStep + 1) : []} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
                             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.5)" />
-                            <XAxis type="number" dataKey="iteration" name="Iteration" domain={[0, 'dataMax']}>
-                              <Label value={isModelBuilt ? "Iteration" : "Parameter (θ)"} offset={-15} position="insideBottom" />
+                            <XAxis type="number" dataKey="iteration" name="Iteration" domain={[0, iterations]}>
+                              <Label value="Iteration" offset={-15} position="insideBottom" />
                             </XAxis>
-                              <YAxis type="number" dataKey="cost" name="Cost" domain={[0, 'dataMax']}>
+                              <YAxis type="number" dataKey="cost" name="Cost" domain={costDomain}>
                                 <Label value="Cost" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
                               </YAxis>
                             <ChartTooltip content={<ChartTooltipContent />} />
