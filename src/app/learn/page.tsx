@@ -10,7 +10,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Progress } from "@/components/ui/progress";
 import { ArrowRight, Check, ChevronLeft, Lightbulb, TriangleAlert, XIcon } from "lucide-react";
@@ -42,11 +42,11 @@ const chartConfig = {
   },
   studentData: {
     label: "Student Data",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(197 71% 73%)",
   },
   bestFitLine: {
     label: "Best Fit Line",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--destructive))",
   },
   yourLine: {
     label: "Your Regression Line",
