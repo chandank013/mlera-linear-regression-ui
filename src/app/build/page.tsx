@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, FlaskConical } from "lucide-react";
 import React from 'react';
 import {
   Select,
@@ -25,6 +25,7 @@ import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { CartesianGrid, Legend, ResponsiveContainer, Scatter, ScatterChart, XAxis, YAxis } from 'recharts';
+import { Slider } from '@/components/ui/slider';
 
 const datasets = {
   "sales-revenue": {
@@ -66,7 +67,7 @@ const datasets = {
         { "Years of Experience": 9, "Salary ($)": 70000 },
         { "Years of Experience": 11, "Salary ($)": 78000 },
         { "Years of Experience": 6, "Salary ($)": 62000 },
-        { "Years Experience": 15, "Salary ($)": 90000 },
+        { "Years of Experience": 15, "Salary ($)": 90000 },
         { "Years of Experience": 14, "Salary ($)": 85000 },
     ],
     columns: ["Years of Experience", "Salary ($)"]
@@ -83,6 +84,9 @@ const chartConfig = {
 export default function BuildPage() {
   const [selectedDataset, setSelectedDataset] = React.useState<keyof typeof datasets>("sales-revenue");
   const [showTable, setShowTable] = React.useState(false);
+  const [learningRate, setLearningRate] = React.useState(0.05);
+  const [iterations, setIterations] = React.useState(100);
+
 
   const currentDataset = datasets[selectedDataset];
 
@@ -175,7 +179,7 @@ export default function BuildPage() {
 
                 <p className="text-muted-foreground text-sm">Choose a dataset to see its scatter plot. This will help you understand the relationship between variables before building the model.</p>
                 
-                <Button className="w-full" variant="destructive" onClick={() => setShowTable(!showTable)}>
+                <Button className="w-full" variant="secondary" onClick={() => setShowTable(!showTable)}>
                   {showTable ? 'Hide' : 'View'} Dataset Table
                 </Button>
 
@@ -226,6 +230,96 @@ export default function BuildPage() {
               </div>
             </CardContent>
           </Card>
+
+          <Card className="bg-card">
+            <CardContent className="p-6">
+              <h2 className="flex items-center text-2xl font-semibold mb-4">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mr-4">
+                  3
+                </span>
+                Choose the Hyperparameters
+              </h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Experiment with different hyperparameter combinations to see how they affect model training:
+              </p>
+              <Card className="bg-primary/10 border-primary/20 mb-6">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-primary/20 hover:bg-primary/30">
+                      <TableHead className="font-semibold text-primary-foreground">Learning Rate (α)</TableHead>
+                      <TableHead className="font-semibold text-primary-foreground">Iterations</TableHead>
+                      <TableHead className="font-semibold text-primary-foreground">Effect</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>0.001 - 0.005</TableCell>
+                      <TableCell>300 - 500</TableCell>
+                      <TableCell>Slow, stable convergence (good for complex datasets)</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>0.01 - 0.05</TableCell>
+                      <TableCell>100 - 300</TableCell>
+                      <TableCell>Balanced convergence (recommended starting point)</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>0.05 - 0.1</TableCell>
+                      <TableCell>50 - 100</TableCell>
+                      <TableCell>Fast convergence, potential instability (for simple datasets)</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+                <div className="p-4 bg-primary/20 border-t border-primary/30 text-sm text-primary-foreground/80">
+                  <strong>Tip:</strong> If the cost function plot oscillates or increases, try reducing the learning rate.
+                </div>
+              </Card>
+
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                    <div className="space-y-2">
+                        <Label htmlFor="model-dataset">Dataset for Model:</Label>
+                        <Select defaultValue={selectedDataset}>
+                            <SelectTrigger id="model-dataset">
+                                <SelectValue placeholder="Select a dataset" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {Object.entries(datasets).map(([key, value]) => (
+                                    <SelectItem key={key} value={key}>{value.name}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="learning-rate">Learning Rate (α): {learningRate.toFixed(3)}</Label>
+                        <Slider
+                            id="learning-rate"
+                            min={0.001}
+                            max={0.1}
+                            step={0.001}
+                            value={[learningRate]}
+                            onValueChange={(vals) => setLearningRate(vals[0])}
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="iterations">Iterations: {iterations}</Label>
+                        <Slider
+                            id="iterations"
+                            min={50}
+                            max={500}
+                            step={10}
+                            value={[iterations]}
+                            onValueChange={(vals) => setIterations(vals[0])}
+                        />
+                    </div>
+                </div>
+                <div className="flex gap-4">
+                  <Button className="w-full">Build Model</Button>
+                  <Button variant="destructive" className="w-full">Reset</Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
         </div>
       </main>
     </div>
