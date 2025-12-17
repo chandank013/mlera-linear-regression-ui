@@ -268,8 +268,18 @@ export default function LearnPage() {
                 
                 <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6 relative">
                     <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-lg"></div>
-                    <p className="text-xl font-mono tracking-wider text-accent-foreground">
-                        MSE = (1/n) &Sigma; (y&#x1D62; - ŷ&#x1D62;)&sup2;
+                    <p className="text-2xl font-mono tracking-wider text-accent-foreground flex items-center justify-center">
+                        <span>MSE = </span>
+                        <span className="flex flex-col mx-2 text-lg">
+                            <span className="border-b border-current pb-1">1</span>
+                            <span>n</span>
+                        </span>
+                        <span className="text-4xl mx-1">&Sigma;</span>
+                        <span className="flex flex-col text-sm -mt-3 -ml-2">
+                           <span>n</span>
+                           <span>i=1</span>
+                        </span>
+                        <span>(y&#x1D62; - ŷ&#x1D62;)&sup2;</span>
                     </p>
                 </div>
 
