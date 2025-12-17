@@ -26,11 +26,11 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
+      <div className="container flex h-20 items-center">
         <div className="flex items-center md:mr-6">
           <Link href="/" className="flex items-center space-x-2">
-            <Logo className="h-8 w-8 text-primary" />
-            <span className="text-lg font-bold">MLera</span>
+            <Logo className="h-10 w-10 text-primary" />
+            <span className="text-2xl font-bold">MLera</span>
           </Link>
         </div>
         
