@@ -208,9 +208,17 @@ export default function LearnPage() {
                 </CardContent>
               </Card>
 
-               <p className="text-muted-foreground leading-relaxed mt-6">
-                In the visualization above, each point represents a student&apos;s study hours (x-axis) and their exam score (y-axis). The straight line is the best-fit line that the linear regression model has learned from the data.
-              </p>
+              <div className="text-muted-foreground leading-relaxed mt-6 space-y-4">
+                <p>
+                  In the visualization above, each point represents a student&apos;s study hours (x-axis) and their exam score (y-axis). The straight line is the <span className="text-accent-foreground font-semibold">&quot;best fit&quot;</span> line determined by Linear Regression, which minimizes the overall distance between the line and all data points.
+                </p>
+                <p>
+                  If we know this relationship, we can make predictions. For example, if a student studies for 6 hours, we can use our regression line to predict their likely exam score.
+                </p>
+                <p>
+                  Our goal in linear regression is to find the values of <span className="font-mono text-accent-foreground">β₀</span> and <span className="font-mono text-accent-foreground">β₁</span> (or all the <span className="font-mono text-accent-foreground">β</span> coefficients in multiple regression) that <span className="text-accent-foreground font-semibold">&quot;best fit&quot;</span> our data. But what does <span className="text-accent-foreground font-semibold">&quot;best fit&quot;</span> mean mathematically? That&apos;s where the cost function comes in.
+                </p>
+              </div>
             </CardContent>
           </Card>
         </div>
