@@ -96,6 +96,43 @@ export default function LearnPage() {
               </div>
             </CardContent>
           </Card>
+          <Card className="bg-card">
+            <CardContent className="p-6">
+                <h2 className="flex items-center text-2xl font-semibold mb-4">
+                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mr-4">
+                        2
+                    </span>
+                    Mathematical Formulation
+                </h2>
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                    The simplest form of Linear Regression (Simple Linear Regression) can be expressed as:
+                </p>
+                <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6">
+                    <p className="text-xl font-mono tracking-wider text-accent-foreground">
+                        Y = β₀ + β₁X + ε
+                    </p>
+                </div>
+
+                <div className="space-y-4 mb-6 relative pl-6">
+                   <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary/20 rounded-full"></div>
+                    <h3 className="font-semibold text-lg">Where:</h3>
+                    <ul className="space-y-2 text-muted-foreground">
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">Y</span> is the dependent variable (what we&apos;re trying to predict)</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">X</span> is the independent variable (our input feature)</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">β₀</span> is the y-intercept (the value of Y when X = 0)</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">β₁</span> is the slope (how much Y changes when X increases by 1 unit)</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">ε</span> (epsilon) represents the error term (the part of Y that can&apos;t be explained by the model)</li>
+                    </ul>
+                </div>
+                
+                <div className="p-6 rounded-lg bg-secondary/50 border border-primary/50 relative">
+                     <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-lg"></div>
+                    <p className="text-muted-foreground leading-relaxed">
+                        The goal of Linear Regression is to find the values of <span className="font-semibold text-accent-foreground">β₀</span> and <span className="font-semibold text-accent-foreground">β₁</span> that minimize the sum of squared differences between the actual <span className="font-semibold text-accent-foreground">Y</span> values and the values predicted by our model.
+                    </p>
+                </div>
+            </CardContent>
+        </Card>
         </div>
       </main>
     </div>
