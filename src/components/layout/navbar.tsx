@@ -33,7 +33,7 @@ export function Navbar() {
           <nav className="flex items-center space-x-6 text-sm font-medium">
             {navLinks.map(({ href, label }) => (
               <Link
-                key={href}
+                key={`${href}-${label}`}
                 href={href}
                 className={cn(
                   "transition-colors hover:text-foreground/80",
