@@ -335,7 +335,7 @@ export default function BuildPage() {
                       <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
                         <ResponsiveContainer>
                           <ScatterChart margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.3)" />
+                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.5)" />
                              <XAxis type="number" dataKey={xKey} name={xKey} allowDuplicatedCategory={false}>
                                 <Label value={xKey} offset={-15} position="insideBottom" />
                             </XAxis>
@@ -343,7 +343,7 @@ export default function BuildPage() {
                                 <Label value={yKey} angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
                             </YAxis>
                             <ChartTooltip cursor={{ strokeDasharray: '3 3' }} content={<ChartTooltipContent />} />
-                            <Legend />
+                            <Legend verticalAlign="top" wrapperStyle={{paddingBottom: "10px"}} />
                             <Scatter name="Data Points" data={currentDataset.data} fill="var(--color-data)" />
                           </ScatterChart>
                         </ResponsiveContainer>
@@ -464,7 +464,7 @@ export default function BuildPage() {
 
                 <div className="flex flex-col items-center gap-4 mb-6">
                     <div className="flex items-center justify-center w-full gap-4">
-                        <Button onClick={() => setCurrentStep(s => Math.max(0, s - 1))} disabled={currentStep === 0}>Previous</Button>
+                        <Button onClick={() => setCurrentStep(s => Math.max(0, s - 10))} disabled={currentStep === 0}>Previous</Button>
                         <Slider
                             value={[currentStep]}
                             onValueChange={(vals) => setCurrentStep(vals[0])}
@@ -473,10 +473,10 @@ export default function BuildPage() {
                             step={1}
                             className="w-full max-w-md"
                         />
-                        <Button onClick={() => setCurrentStep(s => Math.min(iterations - 1, s + 1))} disabled={currentStep === iterations - 1}>Next</Button>
-                        <p className="text-sm text-muted-foreground min-w-[100px]">Iteration: {currentStep + 1} / {iterations}</p>
+                        <Button onClick={() => setCurrentStep(s => Math.min(iterations - 1, s + 10))} disabled={currentStep >= iterations - 1}>Next</Button>
+                         <p className="text-sm text-muted-foreground min-w-[100px]">Iteration: {currentStep + 1} / {iterations}</p>
                         <Button variant="outline" onClick={() => setIsPlaying(!isPlaying)} className="w-[100px]">
-                            {isPlaying ? (
+                           {isPlaying ? (
                                 <>
                                     <Pause className="h-4 w-4 mr-2" />
                                     Pause
@@ -507,7 +507,7 @@ export default function BuildPage() {
                                 <Label value={yKey} angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
                               </YAxis>
                               <ChartTooltip content={<ChartTooltipContent />} />
-                              <Legend />
+                              <Legend verticalAlign="top" wrapperStyle={{paddingBottom: "10px"}}/>
                               <Scatter name="Data Points" dataKey={yKey} fill="var(--color-data)" />
                               <Line name="Best Fit Line" data={regressionLine} dataKey={yKey} stroke="var(--color-bestFit)" strokeWidth={2} dot={false} type="monotone" />
                             </ComposedChart>
@@ -531,7 +531,7 @@ export default function BuildPage() {
                                   <Label value="Cost" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
                                 </YAxis>
                               <ChartTooltip content={<ChartTooltipContent />} />
-                              <Legend />
+                              <Legend verticalAlign="top" wrapperStyle={{paddingBottom: "10px"}} />
                               <Area type="monotone" dataKey="cost" stroke="var(--color-cost)" fill="var(--color-cost)" fillOpacity={0.3} />
                             </AreaChart>
                           </ResponsiveContainer>
