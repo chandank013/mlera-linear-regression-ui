@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils"
 import { Button } from "../ui/button"
 import Image from "next/image"
 import { Avatar, AvatarFallback } from "../ui/avatar"
+import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet"
+import { Menu } from "lucide-react"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -24,13 +26,16 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center">
-        <div className="mr-4 hidden md:flex items-center">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Logo className="h-6 w-6 text-primary" />
-            <span className="font-bold">MLera</span>
+      <div className="container flex h-16 items-center">
+        <div className="flex items-center md:mr-6">
+          <Link href="/" className="flex items-center space-x-2">
+            <Logo className="h-8 w-8 text-primary" />
+            <span className="text-lg font-bold">MLera</span>
           </Link>
-          <nav className="flex items-center space-x-6 text-sm font-medium">
+        </div>
+        
+        <div className="flex flex-1 items-center justify-center">
+          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
             {navLinks.map(({ href, label }) => (
               <Link
                 key={`${href}-${label}`}
@@ -46,20 +51,36 @@ export function Navbar() {
           </nav>
         </div>
 
-        <div className="md:hidden mr-4 flex items-center">
-           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Logo className="h-6 w-6 text-primary" />
-            <span className="font-bold">MLera</span>
-          </Link>
-        </div>
-
-
-        <div className="flex flex-1 items-center justify-end space-x-4">
+        <div className="flex items-center justify-end space-x-4">
           <ThemeToggle />
-          <Avatar className="h-8 w-8">
-            <Image src="https://picsum.photos/seed/user-avatar/32/32" alt="User avatar" width={32} height={32} />
+          <Avatar className="h-9 w-9">
+            <Image src="https://picsum.photos/seed/user-avatar/36/36" alt="User avatar" width={36} height={36} />
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
+           <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden">
+                <Menu />
+                <span className="sr-only">Toggle navigation menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right">
+              <div className="flex flex-col space-y-4 pt-8">
+                {navLinks.map(({ href, label }) => (
+                  <Link
+                    key={`${href}-${label}-mobile`}
+                    href={href}
+                    className={cn(
+                      "text-lg transition-colors hover:text-foreground/80",
+                      (pathname === href || (href !== "/" && pathname.startsWith(href))) ? "text-foreground" : "text-foreground/60"
+                    )}
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>
