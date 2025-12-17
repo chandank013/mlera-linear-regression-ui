@@ -474,22 +474,20 @@ export default function BuildPage() {
                             className="w-full max-w-md"
                         />
                         <Button onClick={() => setCurrentStep(s => Math.min(iterations - 1, s + 1))} disabled={currentStep === iterations - 1}>Next</Button>
-                        <div className="flex items-center gap-2">
-                             <Button variant="outline" onClick={() => setIsPlaying(!isPlaying)} className="w-[100px]">
-                                {isPlaying ? (
-                                    <>
-                                        <Pause className="h-4 w-4 mr-2" />
-                                        Pause
-                                    </>
-                                ) : (
-                                    <>
-                                        <Play className="h-4 w-4 mr-2" />
-                                        Play
-                                    </>
-                                )}
-                            </Button>
-                            <p className="text-sm text-muted-foreground min-w-[100px]">Iteration: {currentStep + 1} / {iterations}</p>
-                        </div>
+                        <p className="text-sm text-muted-foreground min-w-[100px]">Iteration: {currentStep + 1} / {iterations}</p>
+                        <Button variant="outline" onClick={() => setIsPlaying(!isPlaying)} className="w-[100px]">
+                            {isPlaying ? (
+                                <>
+                                    <Pause className="h-4 w-4 mr-2" />
+                                    Pause
+                                </>
+                            ) : (
+                                <>
+                                    <Play className="h-4 w-4 mr-2" />
+                                    Play
+                                </>
+                            )}
+                        </Button>
                     </div>
                 </div>
 
@@ -501,7 +499,7 @@ export default function BuildPage() {
                         <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
                           <ResponsiveContainer>
                              <ComposedChart data={currentDataset.data} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
-                              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.3)" />
+                              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.5)" />
                               <XAxis type="number" dataKey={xKey} name={xKey} allowDuplicatedCategory={false}>
                                 <Label value={xKey} offset={-15} position="insideBottom" />
                               </XAxis>
@@ -525,7 +523,7 @@ export default function BuildPage() {
                         <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
                            <ResponsiveContainer>
                             <AreaChart data={costData.slice(0, currentStep + 1)} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
-                              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.3)" />
+                              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.5)" />
                                <XAxis type="number" dataKey="iteration" name="Iteration" >
                                  <Label value="Iteration" offset={-15} position="insideBottom" />
                                </XAxis>
