@@ -173,7 +173,7 @@ export default function LearnPage() {
                 </p>
                 <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6">
                     <p className="text-xl font-mono tracking-wider text-accent-foreground">
-                        Y = β₀ + β₁X + ε
+                        Y = β&#x2080; + β&#x2081;X + ε
                     </p>
                 </div>
 
@@ -183,8 +183,8 @@ export default function LearnPage() {
                     <ul className="space-y-2 text-muted-foreground">
                         <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">Y</span> is the dependent variable (what we&apos;re trying to predict)</li>
                         <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">X</span> is the independent variable (our input feature)</li>
-                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">β₀</span> is the y-intercept (the value of Y when X = 0)</li>
-                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">β₁</span> is the slope (how much Y changes when X increases by 1 unit)</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">β&#x2080;</span> is the y-intercept (the value of Y when X = 0)</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">β&#x2081;</span> is the slope (how much Y changes when X increases by 1 unit)</li>
                         <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">ε</span> (epsilon) represents the error term (the part of Y that can&apos;t be explained by the model)</li>
                     </ul>
                 </div>
@@ -192,7 +192,7 @@ export default function LearnPage() {
                 <div className="p-6 rounded-lg bg-secondary/50 border border-primary/50 relative">
                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-lg"></div>
                     <p className="text-muted-foreground leading-relaxed">
-                        The goal of Linear Regression is to find the values of <span className="font-semibold text-accent-foreground">β₀</span> and <span className="font-semibold text-accent-foreground">β₁</span> that minimize the sum of squared differences between the actual <span className="font-semibold text-accent-foreground">Y</span> values and the values predicted by our model.
+                        The goal of Linear Regression is to find the values of <span className="font-semibold text-accent-foreground">β&#x2080;</span> and <span className="font-semibold text-accent-foreground">β&#x2081;</span> that minimize the sum of squared differences between the actual <span className="font-semibold text-accent-foreground">Y</span> values and the values predicted by our model.
                     </p>
                 </div>
             </CardContent>
@@ -246,7 +246,7 @@ export default function LearnPage() {
                   If we know this relationship, we can make predictions. For example, if a student studies for 6 hours, we can use our regression line to predict their likely exam score.
                 </p>
                 <p>
-                  Our goal in linear regression is to find the values of <span className="font-mono text-accent-foreground">β₀</span> and <span className="font-mono text-accent-foreground">β₁</span> (or all the <span className="font-mono text-accent-foreground">β</span> coefficients in multiple regression) that <span className="text-accent-foreground font-semibold">&quot;best fit&quot;</span> our data. But what does <span className="text-accent-foreground font-semibold">&quot;best fit&quot;</span> mean mathematically? That&apos;s where the cost function comes in.
+                  Our goal in linear regression is to find the values of <span className="font-mono text-accent-foreground">β&#x2080;</span> and <span className="font-mono text-accent-foreground">β&#x2081;</span> (or all the <span className="font-mono text-accent-foreground">β</span> coefficients in multiple regression) that <span className="text-accent-foreground font-semibold">&quot;best fit&quot;</span> our data. But what does <span className="text-accent-foreground font-semibold">&quot;best fit&quot;</span> mean mathematically? That&apos;s where the cost function comes in.
                 </p>
               </div>
             </CardContent>
@@ -269,7 +269,7 @@ export default function LearnPage() {
                 <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6 relative">
                     <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-lg"></div>
                     <p className="text-xl font-mono tracking-wider text-accent-foreground">
-                        MSE = <sup>1</sup>&frasl;<sub>n</sub> &Sigma; (yᵢ - ŷᵢ)²
+                        MSE = (1/n) &Sigma; (y&#x1D62; - ŷ&#x1D62;)&sup2;
                     </p>
                 </div>
 
@@ -278,8 +278,8 @@ export default function LearnPage() {
                     <h3 className="font-semibold text-lg">Where:</h3>
                     <ul className="space-y-2 text-muted-foreground">
                         <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">n</span> is the number of observations</li>
-                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">yᵢ</span> is the actual value of the dependent variable for observation i</li>
-                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">ŷᵢ</span> is the predicted value for observation i</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">y&#x1D62;</span> is the actual value of the dependent variable for observation i</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">ŷ&#x1D62;</span> is the predicted value for observation i</li>
                     </ul>
                 </div>
                 
@@ -290,7 +290,7 @@ export default function LearnPage() {
                 <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6 relative">
                     <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-lg"></div>
                     <p className="text-xl font-mono tracking-wider text-accent-foreground">
-                        MSE = <sup>1</sup>&frasl;<sub>n</sub> &Sigma; (yᵢ - (β₀ + β₁xᵢ))²
+                        MSE = (1/n) &Sigma; (y&#x1D62; - (β&#x2080; + β&#x2081;x&#x1D62;))&sup2;
                     </p>
                 </div>
 
@@ -299,8 +299,8 @@ export default function LearnPage() {
                     We&apos;ve defined the cost function (typically Mean Squared Error), the next step in Linear Regression is to minimize this error by finding the optimal values of the parameters:
                   </p>
                   <ul className="space-y-2 text-muted-foreground pl-4">
-                      <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">β₀</span> (intercept)</li>
-                      <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">β₁</span> (slope)</li>
+                      <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">β&#x2080;</span> (intercept)</li>
+                      <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">β&#x2081;</span> (slope)</li>
                   </ul>
                   <p>There are two main techniques used to find these optimal parameters:</p>
                   <ol className="list-decimal list-inside text-accent-foreground font-semibold space-y-2">
@@ -326,18 +326,27 @@ export default function LearnPage() {
                 </p>
 
                 <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6 font-mono tracking-wider text-accent-foreground">
-                    <p className="text-xl">
-                        β₁ = <sup>&Sigma; (xᵢ - x̄)(yᵢ - ȳ)</sup> / <sub>&Sigma; (xᵢ - x̄)²</sub> = <sup>Cov(x,y)</sup> / <sub>Var(x)</sub>
+                    <p className="text-xl flex items-center justify-center">
+                        <span>β&#x2081; = </span>
+                        <span className="flex flex-col mx-2">
+                            <span className="border-b border-current pb-1">&Sigma; (x&#x1D62; - x&#x304;)(y&#x1D62; - y&#x304;)</span>
+                            <span>&Sigma; (x&#x1D62; - x&#x304;)&sup2;</span>
+                        </span>
+                        <span> = </span>
+                        <span className="flex flex-col mx-2">
+                            <span className="border-b border-current pb-1">Cov(x,y)</span>
+                            <span>Var(x)</span>
+                        </span>
                     </p>
                 </div>
                 <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6 font-mono tracking-wider text-accent-foreground">
                     <p className="text-xl">
-                        β₀ = ȳ - β₁x̄
+                        β&#x2080; = y&#x304; - β&#x2081;x&#x304;
                     </p>
                 </div>
 
                 <p className="text-muted-foreground leading-relaxed mb-6">
-                   where <span className="font-mono text-accent-foreground">x̄</span> and <span className="font-mono text-accent-foreground">ȳ</span> are the means of the x and y values respectively.
+                   where <span className="font-mono text-accent-foreground">x&#x304;</span> and <span className="font-mono text-accent-foreground">y&#x304;</span> are the means of the x and y values respectively.
                 </p>
 
                 <div className="grid md:grid-cols-2 gap-6">
@@ -367,7 +376,7 @@ export default function LearnPage() {
                     Gradient Descent
                 </h2>
                 <p className="text-muted-foreground leading-relaxed mb-6">
-                    Gradient Descent is an <span className="text-accent-foreground font-semibold">iterative optimization algorithm</span>. It starts with random initial values for β₀ and β₁, and gradually updates them to minimize the cost.
+                    Gradient Descent is an <span className="text-accent-foreground font-semibold">iterative optimization algorithm</span>. It starts with random initial values for β&#x2080; and β&#x2081;, and gradually updates them to minimize the cost.
                 </p>
                 <p className="text-muted-foreground leading-relaxed mb-6">
                     The update rules are:
@@ -375,12 +384,12 @@ export default function LearnPage() {
 
                 <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6 font-mono tracking-wider text-accent-foreground">
                     <p className="text-xl">
-                    β₁ := β₁ - α <sup>∂J</sup>&frasl;<sub>∂β₁</sub> = β₁ - α <sup>1</sup>&frasl;<sub>m</sub> &Sigma; (ŷᵢ - yᵢ) &middot; xᵢ
+                    β&#x2081; := β&#x2081; - α (1/m) &Sigma; (ŷ&#x1D62; - y&#x1D62;) &middot; x&#x1D62;
                     </p>
                 </div>
                 <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6 font-mono tracking-wider text-accent-foreground">
                     <p className="text-xl">
-                    β₀ := β₀ - α <sup>∂J</sup>&frasl;<sub>∂β₀</sub> = β₀ - α <sup>1</sup>&frasl;<sub>m</sub> &Sigma; (ŷᵢ - yᵢ)
+                    β&#x2080; := β&#x2080; - α (1/m) &Sigma; (ŷ&#x1D62; - y&#x1D62;)
                     </p>
                 </div>
 
@@ -390,9 +399,9 @@ export default function LearnPage() {
                     <ul className="space-y-2 text-muted-foreground">
                         <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">α</span> is the learning rate (step size)</li>
                         <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">m</span> is the number of training examples</li>
-                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">ŷᵢ</span> is the predicted value for the i-th example</li>
-                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">yᵢ</span> is the actual value for the i-th example</li>
-                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">xᵢ</span> is the feature value for the i-th example</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">ŷ&#x1D62;</span> is the predicted value for the i-th example</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">y&#x1D62;</span> is the actual value for the i-th example</li>
+                        <li><span className="text-primary font-mono mr-2">→</span> <span className="font-semibold text-accent-foreground">x&#x1D62;</span> is the feature value for the i-th example</li>
                     </ul>
                 </div>
                 
@@ -465,13 +474,13 @@ export default function LearnPage() {
                     <CardFooter className="flex-col items-start gap-4 p-4 bg-secondary/50">
                         <div className="w-full space-y-2">
                              <div className="flex justify-between items-center text-sm">
-                                <Label htmlFor="intercept" className="text-muted-foreground">Intercept (β₀): <span className="font-bold text-primary">{intercept}</span></Label>
+                                <Label htmlFor="intercept" className="text-muted-foreground">Intercept (β&#x2080;): <span className="font-bold text-primary">{intercept}</span></Label>
                             </div>
                             <Slider id="intercept" value={[intercept]} onValueChange={(v) => setIntercept(v[0])} min={-50} max={50} step={1} />
                         </div>
                         <div className="w-full space-y-2">
                              <div className="flex justify-between items-center text-sm">
-                                <Label htmlFor="slope" className="text-muted-foreground">Slope (β₁): <span className="font-bold text-primary">{slope}</span></Label>
+                                <Label htmlFor="slope" className="text-muted-foreground">Slope (β&#x2081;): <span className="font-bold text-primary">{slope}</span></Label>
                             </div>
                             <Slider id="slope" value={[slope]} onValueChange={(v) => setSlope(v[0])} min={-10} max={20} step={0.5} />
                         </div>
