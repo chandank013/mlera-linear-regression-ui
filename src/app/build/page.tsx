@@ -524,7 +524,7 @@ export default function BuildPage() {
               <div className="grid md:grid-cols-2 gap-8 mt-6">
                 <div>
                   <h3 className="text-xl font-bold text-center mb-4">
-                    {isModelBuilt ? `Linear Regression Model (Iteration ${currentStep + 1})` : 'Linear Regression Model'}
+                    {isModelBuilt ? `Linear Regression Model (Iteration ${currentStep + 1})` : 'Linear Regression Model - Build the model to see the results'}
                   </h3>
                   <Card className="overflow-hidden">
                     <CardContent className="bg-secondary/30 p-4">
@@ -550,7 +550,7 @@ export default function BuildPage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-center mb-4">
-                    {isModelBuilt ? `Cost vs Iteration (Iteration ${currentStep + 1})` : 'Parameter vs Cost'}
+                    {isModelBuilt ? `Cost vs Iteration (Iteration ${currentStep + 1})` : 'Parameter vs Cost - Build the model to see the results'}
                   </h3>
                   <Card className="overflow-hidden">
                     <CardContent className="bg-secondary/30 p-4">
