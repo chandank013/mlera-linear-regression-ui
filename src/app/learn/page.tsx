@@ -1,5 +1,6 @@
 "use client";
 
+import Link from 'next/link';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Progress } from "@/components/ui/progress";
-import { Check, ChevronLeft, Lightbulb, TriangleAlert, XIcon } from "lucide-react";
+import { ArrowRight, Check, ChevronLeft, Lightbulb, TriangleAlert, XIcon } from "lucide-react";
 import { Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, Line, Legend, ResponsiveContainer } from "recharts";
 import React, { useState, useMemo } from 'react';
 import { Label } from "@/components/ui/label";
@@ -55,8 +56,8 @@ const chartConfig = {
 
 
 export default function LearnPage() {
-    const [intercept, setIntercept] = useState(20);
-    const [slope, setSlope] = useState(3);
+    const [intercept, setIntercept] = useState(31);
+    const [slope, setSlope] = useState(6.2);
 
     const userLineData = useMemo(() => {
         const xValues = scatterData.map(d => d.hours);
@@ -477,10 +478,37 @@ export default function LearnPage() {
                         <div className="w-full text-center">
                             <p className="text-muted-foreground">Mean Squared Error: <span className="font-bold text-lg text-destructive">{mse}</span></p>
                         </div>
+                        <div className="mt-4 text-muted-foreground text-sm space-y-2">
+                            <p>As you adjust the sliders, observe how the regression line changes:</p>
+                            <ul className="list-disc pl-5 space-y-1">
+                                <li>The intercept moves the line up or down (where it crosses the y-axis)</li>
+                                <li>The slope changes how steep the line is (positive slopes go up, negative slopes go down)</li>
+                            </ul>
+                        </div>
+                        <div className="mt-4 p-4 rounded-lg bg-accent border-l-4 border-primary">
+                            <p className="text-sm text-accent-foreground">Notice that some lines fit the data better than others. The best line is the one that minimizes the total error between the line and the actual data points.</p>
+                        </div>
                     </CardFooter>
                 </Card>
               </CardContent>
           </Card>
+        </div>
+
+        <div className="mt-12">
+            <Card className="bg-primary/5 dark:bg-primary/10 border-primary/20">
+                <CardContent className="p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
+                <div>
+                    <p className="text-sm font-semibold text-primary">Coming Up Next:</p>
+                    <h3 className="text-2xl font-bold mt-1">Build a Linear Regression Model</h3>
+                    <p className="text-muted-foreground mt-2">Now that the theory is clear, build an interactive model.</p>
+                </div>
+                <Link href="/build" className="mt-4 md:mt-0">
+                    <Button>
+                    Continue <ArrowRight className="ml-2" />
+                    </Button>
+                </Link>
+                </CardContent>
+            </Card>
         </div>
       </main>
     </div>
