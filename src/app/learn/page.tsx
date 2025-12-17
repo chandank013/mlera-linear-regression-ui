@@ -443,7 +443,7 @@ export default function LearnPage() {
                         <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
                             <ResponsiveContainer>
                                 <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.5)" />
                                     <XAxis type="number" dataKey="hours" name="Study Hours" unit="h" domain={[0, 10]} />
                                     <YAxis type="number" dataKey="score" name="Exam Score" domain={[0, 100]} />
                                     <ChartTooltip cursor={{ strokeDasharray: '3 3' }} content={<ChartTooltipContent />} />
