@@ -14,6 +14,9 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 import { Progress } from "@/components/ui/progress";
 import { Check, ChevronLeft, Lightbulb, TriangleAlert, XIcon } from "lucide-react";
 import { Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, Line, Legend, ResponsiveContainer } from "recharts";
+import React, { useState, useMemo } from 'react';
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 
 
 const scatterData = [
@@ -44,10 +47,36 @@ const chartConfig = {
     label: "Best Fit Line",
     color: "hsl(var(--chart-1))",
   },
+  yourLine: {
+    label: "Your Regression Line",
+    color: "hsl(var(--destructive))",
+  },
 };
 
 
 export default function LearnPage() {
+    const [intercept, setIntercept] = useState(20);
+    const [slope, setSlope] = useState(3);
+
+    const userLineData = useMemo(() => {
+        const xValues = scatterData.map(d => d.hours);
+        const minX = Math.min(...xValues, 0);
+        const maxX = Math.max(...xValues, 10);
+        return [
+            { hours: minX, score: intercept + slope * minX },
+            { hours: maxX, score: intercept + slope * maxX },
+        ];
+    }, [intercept, slope]);
+
+    const mse = useMemo(() => {
+        let error = 0;
+        scatterData.forEach(point => {
+            const predictedY = intercept + slope * point.hours;
+            error += Math.pow(point.score - predictedY, 2);
+        });
+        return parseFloat((error / scatterData.length).toFixed(2));
+    }, [intercept, slope]);
+
   return (
     <div className="container mx-auto px-4 md:px-6 py-12 max-w-5xl">
       <header className="mb-8">
@@ -330,7 +359,7 @@ export default function LearnPage() {
           </Card>
           <Card className="bg-card">
             <CardContent className="p-6">
-                <h2 className="flex items-center text2xl font-semibold mb-4">
+                <h2 className="flex items-center text-2xl font-semibold mb-4">
                     <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mr-4">
                         6
                     </span>
@@ -392,8 +421,65 @@ export default function LearnPage() {
                         <li>Repeat until you reach the bottom (convergence)</li>
                     </ol>
                 </div>
-
             </CardContent>
+          </Card>
+          <Card className="bg-card">
+              <CardContent className="p-6">
+                <h2 className="flex items-center text-2xl font-semibold mb-4">
+                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mr-4">
+                    7
+                  </span>
+                  Visual Representation
+                </h2>
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                  Let&apos;s explore how changing the intercept and slope affects our regression line:
+                </p>
+                <Card className="overflow-hidden">
+                    <CardHeader className="p-4 bg-secondary/50">
+                        <CardTitle className="text-center text-primary">Adjust the Intercept and Slope to Fit the Data</CardTitle>
+                    </CardHeader>
+                    <CardContent className="bg-secondary/30 p-4">
+                        <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
+                            <ResponsiveContainer>
+                                <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis type="number" dataKey="hours" name="Study Hours" unit="h" domain={[0, 10]} />
+                                    <YAxis type="number" dataKey="score" name="Exam Score" domain={[0, 100]} />
+                                    <ChartTooltip cursor={{ strokeDasharray: '3 3' }} content={<ChartTooltipContent />} />
+                                    <Legend />
+                                    <Scatter name="Student Data" data={scatterData} fill="var(--color-studentData)" />
+                                    <Line
+                                        name="Your Regression Line"
+                                        data={userLineData}
+                                        type="monotone"
+                                        dataKey="score"
+                                        stroke="var(--color-yourLine)"
+                                        strokeWidth={2}
+                                        dot={false}
+                                        />
+                                </ScatterChart>
+                            </ResponsiveContainer>
+                        </ChartContainer>
+                    </CardContent>
+                    <CardFooter className="flex-col items-start gap-4 p-4 bg-secondary/50">
+                        <div className="w-full space-y-2">
+                             <div className="flex justify-between items-center text-sm">
+                                <Label htmlFor="intercept" className="text-muted-foreground">Intercept (β₀): <span className="font-bold text-primary">{intercept}</span></Label>
+                            </div>
+                            <Slider id="intercept" value={[intercept]} onValueChange={(v) => setIntercept(v[0])} min={-50} max={50} step={1} />
+                        </div>
+                        <div className="w-full space-y-2">
+                             <div className="flex justify-between items-center text-sm">
+                                <Label htmlFor="slope" className="text-muted-foreground">Slope (β₁): <span className="font-bold text-primary">{slope}</span></Label>
+                            </div>
+                            <Slider id="slope" value={[slope]} onValueChange={(v) => setSlope(v[0])} min={-10} max={20} step={0.5} />
+                        </div>
+                        <div className="w-full text-center">
+                            <p className="text-muted-foreground">Mean Squared Error: <span className="font-bold text-lg text-destructive">{mse}</span></p>
+                        </div>
+                    </CardFooter>
+                </Card>
+              </CardContent>
           </Card>
         </div>
       </main>
