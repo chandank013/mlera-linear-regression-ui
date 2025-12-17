@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Progress } from "@/components/ui/progress";
-import { ChevronLeft, Lightbulb } from "lucide-react";
+import { Check, ChevronLeft, Lightbulb, TriangleAlert, XIcon } from "lucide-react";
 import { Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, Line, Legend, ResponsiveContainer } from "recharts";
 
 
@@ -277,6 +277,54 @@ export default function LearnPage() {
                     <li>Ordinary Least Square (OLS)</li>
                     <li>Gradient Descent</li>
                   </ol>
+                </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-card">
+            <CardContent className="p-6">
+                <h2 className="flex items-center text-2xl font-semibold mb-4">
+                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mr-4">
+                        5
+                    </span>
+                    Ordinary Least Square (OLS)
+                </h2>
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                    O.S is a <span className="text-accent-foreground font-semibold">closed-form analytical solution</span> derived by differenticting the cost function and setting the derivatives to zero. It gives a direct formula to compute the best-fitting line.
+                </p>
+                 <p className="text-muted-foreground leading-relaxed mb-6">
+                    For a simple linear regression (one feature), the formulas are:
+                </p>
+
+                <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6 font-mono tracking-wider text-accent-foreground">
+                    <p className="text-xl">
+                        β₁ = <sup>&Sigma; (xᵢ - x̄)(yᵢ - ȳ)</sup> / <sub>&Sigma; (xᵢ - x̄)²</sub> = <sup>Cov(x,y)</sup> / <sub>Var(x)</sub>
+                    </p>
+                </div>
+                <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6 font-mono tracking-wider text-accent-foreground">
+                    <p className="text-xl">
+                        β₀ = ȳ - β₁x̄
+                    </p>
+                </div>
+
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                   where <span className="font-mono text-accent-foreground">x̄</span> and <span className="font-mono text-accent-foreground">ȳ</span> are the means of the x and y values respectively.
+                </p>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                    <div className="p-6 rounded-lg bg-green-500/10 border-l-4 border-green-500">
+                        <h3 className="font-semibold text-lg text-green-400 mb-4 flex items-center gap-2"><Lightbulb className="w-5 h-5"/> Pros:</h3>
+                        <ul className="space-y-2 text-muted-foreground">
+                            <li className="flex items-start gap-2"><Check className="text-green-500 mt-1 flex-shrink-0" /> Fast and exact</li>
+                            <li className="flex items-start gap-2"><Check className="text-green-500 mt-1 flex-shrink-0" /> Best for small to medium datasets</li>
+                        </ul>
+                    </div>
+                     <div className="p-6 rounded-lg bg-red-500/10 border-l-4 border-red-500">
+                        <h3 className="font-semibold text-lg text-red-400 mb-4 flex items-center gap-2"><TriangleAlert className="w-5 h-5" /> Cons:</h3>
+                        <ul className="space-y-2 text-muted-foreground">
+                            <li className="flex items-start gap-2"><XIcon className="text-red-500 mt-1 flex-shrink-0" /> Not ideal for high-dimensional data</li>
+                            <li className="flex items-start gap-2"><XIcon className="text-red-500 mt-1 flex-shrink-0" /> Becomes computationally expensive when data is very large</li>
+                        </ul>
+                    </div>
                 </div>
             </CardContent>
           </Card>
