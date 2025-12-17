@@ -9,9 +9,43 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Progress } from "@/components/ui/progress";
 import { ChevronLeft, Lightbulb } from "lucide-react";
+import { Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, Line, Legend, ResponsiveContainer } from "recharts";
+
+
+const scatterData = [
+  { hours: 1, score: 42 },
+  { hours: 2, score: 49 },
+  { hours: 3, score: 45 },
+  { hours: 4.2, score: 62 },
+  { hours: 5, score: 72 },
+  { hours: 5.5, score: 68 },
+  { hours: 6, score: 75 },
+  { hours: 7, score: 81 },
+];
+
+const bestFitLine = [
+  { hours: 1, score: 40 },
+  { hours: 7, score: 82 },
+];
+
+const chartConfig = {
+  score: {
+    label: "Exam Score",
+  },
+  studentData: {
+    label: "Student Data",
+    color: "hsl(var(--chart-2))",
+  },
+  bestFitLine: {
+    label: "Best Fit Line",
+    color: "hsl(var(--chart-1))",
+  },
+};
+
 
 export default function LearnPage() {
   return (
@@ -132,7 +166,53 @@ export default function LearnPage() {
                     </p>
                 </div>
             </CardContent>
-        </Card>
+          </Card>
+           <Card className="bg-card">
+            <CardContent className="p-6">
+              <h2 className="flex items-center text-2xl font-semibold mb-4">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mr-4">
+                  3
+                </span>
+                Intuition behind LR
+              </h2>
+              <p className="text-muted-foreground leading-relaxed mb-6">
+                Imagine you&apos;re trying to understand the relationship between study hours and exam scores. Intuitively, you might expect that more study hours lead to higher scores. Linear Regression formalizes this intuition by finding the straight line that best represents this relationship.
+              </p>
+              
+              <Card className="overflow-hidden">
+                <CardHeader className="p-4 bg-gradient-to-r from-pink-500 to-purple-600">
+                  <CardTitle className="text-center text-white">Relationship Between Study Hours and Exam Scores</CardTitle>
+                </CardHeader>
+                <CardContent className="bg-secondary/30 p-4">
+                    <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
+                        <ResponsiveContainer>
+                            <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis type="number" dataKey="hours" name="Study Hours" unit="h" domain={[0, 8]} />
+                                <YAxis type="number" dataKey="score" name="Exam Score" domain={[30, 90]} />
+                                <ChartTooltip cursor={{ strokeDasharray: '3 3' }} content={<ChartTooltipContent />} />
+                                <Legend />
+                                <Scatter name="Student Data" data={scatterData} fill="var(--color-studentData)" />
+                                <Line 
+                                    name="Best Fit Line"
+                                    data={bestFitLine} 
+                                    type="monotone" 
+                                    dataKey="score" 
+                                    stroke="var(--color-bestFitLine)" 
+                                    strokeWidth={2} 
+                                    dot={false} 
+                                />
+                            </ScatterChart>
+                        </ResponsiveContainer>
+                    </ChartContainer>
+                </CardContent>
+              </Card>
+
+               <p className="text-muted-foreground leading-relaxed mt-6">
+                In the visualization above, each point represents a student&apos;s study hours (x-axis) and their exam score (y-axis). The straight line is the best-fit line that the linear regression model has learned from the data.
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>
