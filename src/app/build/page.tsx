@@ -557,7 +557,7 @@ export default function BuildPage() {
                       <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
                         <ResponsiveContainer>
                           <AreaChart data={isModelBuilt ? costData.slice(0, currentStep + 1) : []} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.5)" />
+                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.5)" vertical={false} />
                             <XAxis type="number" dataKey="iteration" name="Iteration" domain={[0, iterations]}>
                               <Label value="Iteration" offset={-15} position="insideBottom" />
                             </XAxis>
