@@ -188,7 +188,7 @@ export default function BuildPage() {
 
 
   const regressionLine = React.useMemo(() => {
-    if (trainingHistory.length === 0) return [];
+    if (!isModelBuilt || trainingHistory.length === 0) return [];
     const { b0, b1 } = trainingHistory[currentStep];
 
     const x = currentDataset.data.map(d => (d as any)[xKey]);
@@ -204,11 +204,12 @@ export default function BuildPage() {
 
     return [{ [xKey]: xMin, [yKey]: yMin }, { [xKey]: xMax, [yKey]: yMax }];
 
-  }, [currentStep, trainingHistory, currentDataset, xKey, yKey]);
+  }, [currentStep, trainingHistory, currentDataset, xKey, yKey, isModelBuilt]);
 
   const costData = React.useMemo(() => {
+     if (!isModelBuilt) return [];
      return trainingHistory.map(step => ({ iteration: step.iteration, cost: step.cost }));
-  }, [trainingHistory]);
+  }, [trainingHistory, isModelBuilt]);
 
 
   return (
@@ -450,34 +451,40 @@ export default function BuildPage() {
             </CardContent>
           </Card>
 
-          {isModelBuilt && (
-            <Card>
-              <CardContent className="p-6">
-                <h2 className="flex items-center text-2xl font-semibold mb-4">
-                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mr-4">
-                    4
-                  </span>
-                  Model&apos;s Growth
-                </h2>
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  Model built successfully. Use the controls to navigate through the steps of training.
-                </p>
+          <Card>
+            <CardContent className="p-6">
+              <h2 className="flex items-center text-2xl font-semibold mb-4">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mr-4">
+                  4
+                </span>
+                Model&apos;s Growth
+              </h2>
 
-                <div className="flex flex-col items-center gap-4 mb-6">
-                    <div className="flex items-center justify-center w-full gap-4">
-                        <Button onClick={() => setCurrentStep(s => Math.max(0, s - 10))} disabled={currentStep === 0}>Previous</Button>
-                        <Slider
-                            value={[currentStep]}
-                            onValueChange={(vals) => setCurrentStep(vals[0])}
-                            min={0}
-                            max={iterations - 1}
-                            step={1}
-                            className="w-full max-w-md"
-                        />
-                        <Button onClick={() => setCurrentStep(s => Math.min(iterations - 1, s + 10))} disabled={currentStep >= iterations - 1}>Next</Button>
-                        <p className="text-sm text-muted-foreground min-w-[100px]">Iteration: {currentStep + 1} / {iterations}</p>
-                        <Button variant="outline" onClick={() => setIsPlaying(!isPlaying)} className="w-[100px]">
-                           {isPlaying ? (
+              {!isModelBuilt ? (
+                 <div className="text-center py-8 px-4 rounded-lg bg-secondary/50 border border-border">
+                    <p className="text-muted-foreground">Select a dataset and parameters, then click &quot;Build Model&quot;</p>
+                 </div>
+              ) : (
+                <>
+                  <p className="text-muted-foreground leading-relaxed mb-6">
+                    Model built successfully. Use the controls to navigate through the steps of training.
+                  </p>
+
+                  <div className="flex flex-col items-center gap-4 mb-6">
+                      <div className="flex items-center justify-center w-full gap-4">
+                          <Button onClick={() => setCurrentStep(s => Math.max(0, s - 10))} disabled={currentStep === 0}>Previous</Button>
+                          <Slider
+                              value={[currentStep]}
+                              onValueChange={(vals) => setCurrentStep(vals[0])}
+                              min={0}
+                              max={iterations - 1}
+                              step={1}
+                              className="w-full max-w-md"
+                          />
+                          <Button onClick={() => setCurrentStep(s => Math.min(iterations - 1, s + 10))} disabled={currentStep >= iterations - 1}>Next</Button>
+                          <p className="text-sm text-muted-foreground min-w-[100px]">Iteration: {currentStep + 1} / {iterations}</p>
+                          <Button variant="outline" onClick={() => setIsPlaying(!isPlaying)} className="w-[100px]">
+                            {isPlaying ? (
                                 <>
                                     <Pause className="h-4 w-4 mr-2" />
                                     Pause
@@ -488,64 +495,68 @@ export default function BuildPage() {
                                     Play
                                 </>
                             )}
-                        </Button>
-                    </div>
+                          </Button>
+                      </div>
+                  </div>
+                </>
+              )}
+              
+              <div className="grid md:grid-cols-2 gap-8 mt-6">
+                <div>
+                  <h3 className="text-xl font-bold text-center mb-4">
+                    {isModelBuilt ? `Linear Regression Model (Iteration ${currentStep + 1})` : 'Linear Regression Model - Build a model to see results'}
+                  </h3>
+                  <Card className="overflow-hidden">
+                    <CardContent className="bg-secondary/30 p-4">
+                      <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
+                        <ResponsiveContainer>
+                          <ComposedChart data={isModelBuilt ? currentDataset.data : []} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.5)" />
+                            <XAxis type="number" dataKey={xKey} name={xKey} allowDuplicatedCategory={false} domain={['dataMin', 'dataMax']}>
+                              <Label value={isModelBuilt ? xKey : 'X Values'} offset={-15} position="insideBottom" />
+                            </XAxis>
+                            <YAxis type="number" dataKey={yKey} name={yKey} domain={['dataMin', 'dataMax']}>
+                              <Label value={isModelBuilt ? yKey: 'Y Values'} angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
+                            </YAxis>
+                            <ChartTooltip content={<ChartTooltipContent />} />
+                            <Legend verticalAlign="top" wrapperStyle={{paddingBottom: "10px"}}/>
+                            {isModelBuilt && <Scatter name="Data Points" dataKey={yKey} fill="var(--color-data)" />}
+                            {isModelBuilt && <Line name="Best Fit Line" data={regressionLine} dataKey={yKey} stroke="var(--color-bestFit)" strokeWidth={2} dot={false} type="monotone" />}
+                          </ComposedChart>
+                        </ResponsiveContainer>
+                      </ChartContainer>
+                    </CardContent>
+                  </Card>
                 </div>
-
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div>
-                    <h3 className="text-xl font-bold text-center mb-4">Linear Regression Model (Iteration {currentStep + 1})</h3>
-                    <Card className="overflow-hidden">
-                      <CardContent className="bg-secondary/30 p-4">
-                        <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
-                          <ResponsiveContainer>
-                             <ComposedChart data={currentDataset.data} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
-                              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.5)" />
-                              <XAxis type="number" dataKey={xKey} name={xKey} allowDuplicatedCategory={false}>
-                                <Label value={xKey} offset={-15} position="insideBottom" />
-                              </XAxis>
-                              <YAxis type="number" dataKey={yKey} name={yKey}>
-                                <Label value={yKey} angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
+                <div>
+                  <h3 className="text-xl font-bold text-center mb-4">
+                    {isModelBuilt ? `Cost vs Iteration (Iteration ${currentStep + 1})` : 'Parameter vs Cost - Build a model to see results'}
+                  </h3>
+                  <Card className="overflow-hidden">
+                    <CardContent className="bg-secondary/30 p-4">
+                      <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
+                        <ResponsiveContainer>
+                          <AreaChart data={isModelBuilt ? costData.slice(0, currentStep + 1) : []} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.5)" />
+                            <XAxis type="number" dataKey="iteration" name="Iteration" domain={[0, 'dataMax']}>
+                              <Label value={isModelBuilt ? "Iteration" : "Parameter (θ)"} offset={-15} position="insideBottom" />
+                            </XAxis>
+                              <YAxis type="number" dataKey="cost" name="Cost" domain={[0, 'dataMax']}>
+                                <Label value="Cost" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
                               </YAxis>
-                              <ChartTooltip content={<ChartTooltipContent />} />
-                              <Legend verticalAlign="top" wrapperStyle={{paddingBottom: "10px"}}/>
-                              <Scatter name="Data Points" dataKey={yKey} fill="var(--color-data)" />
-                              <Line name="Best Fit Line" data={regressionLine} dataKey={yKey} stroke="var(--color-bestFit)" strokeWidth={2} dot={false} type="monotone" />
-                            </ComposedChart>
-                          </ResponsiveContainer>
-                        </ChartContainer>
-                      </CardContent>
-                    </Card>
-                  </div>
-                  <div>
-                     <h3 className="text-xl font-bold text-center mb-4">Cost vs Iteration (Iteration {currentStep + 1})</h3>
-                     <Card className="overflow-hidden">
-                      <CardContent className="bg-secondary/30 p-4">
-                        <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
-                           <ResponsiveContainer>
-                            <AreaChart data={costData.slice(0, currentStep + 1)} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
-                              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.5)" />
-                               <XAxis type="number" dataKey="iteration" name="Iteration" >
-                                 <Label value="Iteration" offset={-15} position="insideBottom" />
-                               </XAxis>
-                                <YAxis type="number" dataKey="cost" name="Cost" >
-                                  <Label value="Cost" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
-                                </YAxis>
-                              <ChartTooltip content={<ChartTooltipContent />} />
-                              <Legend verticalAlign="top" wrapperStyle={{paddingBottom: "10px"}} />
-                              <Area type="monotone" dataKey="cost" stroke="var(--color-cost)" fill="var(--color-cost)" fillOpacity={0.3} />
-                            </AreaChart>
-                          </ResponsiveContainer>
-                        </ChartContainer>
-                      </CardContent>
-                    </Card>
-                  </div>
+                            <ChartTooltip content={<ChartTooltipContent />} />
+                            <Legend verticalAlign="top" wrapperStyle={{paddingBottom: "10px"}} />
+                            {isModelBuilt && <Area type="monotone" dataKey="cost" stroke="var(--color-cost)" fill="var(--color-cost)" fillOpacity={0.3} />}
+                          </AreaChart>
+                        </ResponsiveContainer>
+                      </ChartContainer>
+                    </CardContent>
+                  </Card>
                 </div>
+              </div>
 
-              </CardContent>
-            </Card>
-          )}
-
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>
