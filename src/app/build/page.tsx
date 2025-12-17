@@ -440,7 +440,7 @@ export default function BuildPage() {
                   <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mr-4">
                     4
                   </span>
-                  Model&apos;s Growth
+                  Model's Growth
                 </h2>
                 <p className="text-muted-foreground leading-relaxed mb-6">
                   Model built successfully. Use the controls to navigate through the steps of training.
