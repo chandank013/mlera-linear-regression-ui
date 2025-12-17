@@ -217,7 +217,7 @@ export default function LearnPage() {
                     <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
                         <ResponsiveContainer>
                             <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-                                <CartesianGrid strokeDasharray="3 3" />
+                                <CartesianGrid stroke="hsl(var(--foreground) / 0.5)" />
                                 <XAxis type="number" dataKey="hours" name="Study Hours" unit="h" domain={[0, 8]} />
                                 <YAxis type="number" dataKey="score" name="Exam Score" domain={[30, 90]} />
                                 <ChartTooltip cursor={{ strokeDasharray: '3 3' }} content={<ChartTooltipContent />} />
@@ -299,8 +299,18 @@ export default function LearnPage() {
 
                 <div className="p-6 rounded-lg bg-secondary/50 border border-border text-center mb-6 relative">
                     <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-lg"></div>
-                    <p className="text-xl font-mono tracking-wider text-accent-foreground">
-                        MSE = (1/n) &Sigma; (y&#x1D62; - (β&#x2080; + β&#x2081;x&#x1D62;))&sup2;
+                    <p className="text-xl font-mono tracking-wider text-accent-foreground flex items-center justify-center">
+                        <span>MSE = </span>
+                        <span className="flex flex-col mx-2 text-lg">
+                            <span className="border-b border-current pb-1">1</span>
+                            <span>n</span>
+                        </span>
+                        <span className="text-4xl mx-1">&Sigma;</span>
+                        <span className="flex flex-col text-sm -mt-3 -ml-2">
+                           <span>n</span>
+                           <span>i=1</span>
+                        </span>
+                        <span>(y&#x1D62; - (β&#x2080; + β&#x2081;x&#x1D62;))&sup2;</span>
                     </p>
                 </div>
 
@@ -462,7 +472,7 @@ export default function LearnPage() {
                         <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
                             <ResponsiveContainer>
                                 <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--foreground) / 0.5)" />
+                                    <CartesianGrid stroke="hsl(var(--foreground) / 0.5)" />
                                     <XAxis type="number" dataKey="hours" name="Study Hours" unit="h" domain={[0, 10]} />
                                     <YAxis type="number" dataKey="score" name="Exam Score" domain={[0, 100]} />
                                     <ChartTooltip cursor={{ strokeDasharray: '3 3' }} content={<ChartTooltipContent />} />
@@ -482,19 +492,21 @@ export default function LearnPage() {
                         </ChartContainer>
                     </CardContent>
                     <CardFooter className="flex-col items-start gap-4 p-4 bg-secondary/50">
-                        <div className="w-full space-y-2">
-                             <div className="flex justify-between items-center text-sm">
-                                <Label htmlFor="intercept" className="text-muted-foreground">Intercept (β&#x2080;): <span className="font-bold text-primary">{intercept}</span></Label>
+                        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="w-full space-y-2">
+                                <div className="flex justify-between items-center text-sm">
+                                    <Label htmlFor="intercept" className="text-muted-foreground">Intercept (β&#x2080;): <span className="font-bold text-primary">{intercept}</span></Label>
+                                </div>
+                                <Slider id="intercept" value={[intercept]} onValueChange={(v) => setIntercept(v[0])} min={-50} max={50} step={1} />
                             </div>
-                            <Slider id="intercept" value={[intercept]} onValueChange={(v) => setIntercept(v[0])} min={-50} max={50} step={1} />
-                        </div>
-                        <div className="w-full space-y-2">
-                             <div className="flex justify-between items-center text-sm">
-                                <Label htmlFor="slope" className="text-muted-foreground">Slope (β&#x2081;): <span className="font-bold text-primary">{slope}</span></Label>
+                            <div className="w-full space-y-2">
+                                <div className="flex justify-between items-center text-sm">
+                                    <Label htmlFor="slope" className="text-muted-foreground">Slope (β&#x2081;): <span className="font-bold text-primary">{slope}</span></Label>
+                                </div>
+                                <Slider id="slope" value={[slope]} onValueChange={(v) => setSlope(v[0])} min={-10} max={20} step={0.5} />
                             </div>
-                            <Slider id="slope" value={[slope]} onValueChange={(v) => setSlope(v[0])} min={-10} max={20} step={0.5} />
                         </div>
-                        <div className="w-full text-center">
+                        <div className="w-full text-center mt-4">
                             <p className="text-muted-foreground">Mean Squared Error: <span className="font-bold text-lg text-destructive">{mse}</span></p>
                         </div>
                         <div className="mt-4 text-muted-foreground text-sm space-y-2">
