@@ -42,11 +42,11 @@ const chartConfig = {
   },
   studentData: {
     label: "Student Data",
-    color: "hsl(197 71% 73%)",
+    color: "hsl(var(--chart-2))",
   },
   bestFitLine: {
     label: "Best Fit Line",
-    color: "hsl(var(--destructive))",
+    color: "hsl(var(--chart-1))",
   },
   yourLine: {
     label: "Your Regression Line",
@@ -517,6 +517,16 @@ export default function LearnPage() {
                                         strokeWidth={2}
                                         dot={false}
                                         />
+                                    <Line
+                                        name="Best Fit Line"
+                                        data={bestFitLine}
+                                        type="monotone"
+                                        dataKey="score"
+                                        stroke="var(--color-bestFitLine)"
+                                        strokeWidth={2}
+                                        strokeDasharray="5 5"
+                                        dot={false}
+                                    />
                                 </ScatterChart>
                             </ResponsiveContainer>
                         </ChartContainer>
