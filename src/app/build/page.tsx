@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { ChevronLeft, FlaskConical } from "lucide-react";
+import { ChevronLeft, FlaskConical, Pause, Play } from "lucide-react";
 import React from 'react';
 import {
   Select,
@@ -24,7 +24,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { CartesianGrid, Legend, ResponsiveContainer, Scatter, ScatterChart, XAxis, YAxis } from 'recharts';
+import { CartesianGrid, Legend, ResponsiveContainer, Scatter, ScatterChart, XAxis, YAxis, Line, ComposedChart, AreaChart, Area } from 'recharts';
 import { Slider } from '@/components/ui/slider';
 
 const datasets = {
@@ -37,6 +37,11 @@ const datasets = {
       { "Marketing Budget ($K)": 30, "Sales Revenue ($K)": 380 },
       { "Marketing Budget ($K)": 40, "Sales Revenue ($K)": 500 },
       { "Marketing Budget ($K)": 50, "Sales Revenue ($K)": 620 },
+      { "Marketing Budget ($K)": 15, "Sales Revenue ($K)": 180 },
+      { "Marketing Budget ($K)": 25, "Sales Revenue ($K)": 320 },
+      { "Marketing Budget ($K)": 35, "Sales Revenue ($K)": 440 },
+      { "Marketing Budget ($K)": 45, "Sales Revenue ($K)": 560 },
+      { "Marketing Budget ($K)": 55, "Sales Revenue ($K)": 680 },
     ],
     columns: ["Marketing Budget ($K)", "Sales Revenue ($K)"]
   },
@@ -49,6 +54,11 @@ const datasets = {
         { "Square Footage": 2200, "Price ($)": 450000 },
         { "Square Footage": 2500, "Price ($)": 500000 },
         { "Square Footage": 3000, "Price ($)": 650000 },
+        { "Square Footage": 1600, "Price ($)": 320000 },
+        { "Square Footage": 2000, "Price ($)": 400000 },
+        { "Square Footage": 2700, "Price ($)": 550000 },
+        { "Square Footage": 2800, "Price ($)": 580000 },
+        { "Square Footage": 3200, "Price ($)": 700000 },
     ],
     columns: ["Square Footage", "Price ($)"]
   },
@@ -79,6 +89,21 @@ const chartConfig = {
     label: "Data Points",
     color: "hsl(var(--chart-2))",
   },
+  cost: {
+    label: "Cost",
+    color: "hsl(var(--chart-1))",
+  },
+  bestFit: {
+    label: "Best Fit Line",
+    color: "hsl(var(--destructive))",
+  },
+};
+
+type TrainingStep = {
+  iteration: number;
+  b0: number;
+  b1: number;
+  cost: number;
 };
 
 export default function BuildPage() {
@@ -86,12 +111,98 @@ export default function BuildPage() {
   const [showTable, setShowTable] = React.useState(false);
   const [learningRate, setLearningRate] = React.useState(0.05);
   const [iterations, setIterations] = React.useState(100);
-
+  const [isModelBuilt, setIsModelBuilt] = React.useState(false);
+  const [trainingHistory, setTrainingHistory] = React.useState<TrainingStep[]>([]);
+  const [currentStep, setCurrentStep] = React.useState(0);
+  const [isPlaying, setIsPlaying] = React.useState(false);
 
   const currentDataset = datasets[selectedDataset];
-
   const xKey = currentDataset.columns[0];
   const yKey = currentDataset.columns[1];
+
+  const handleBuildModel = () => {
+    let b0 = 0;
+    let b1 = 0;
+    const history: TrainingStep[] = [];
+    const x = currentDataset.data.map(d => (d as any)[xKey]);
+    const y = currentDataset.data.map(d => (d as any)[yKey]);
+    const n = x.length;
+
+    // Normalize features
+    const xMean = x.reduce((a, b) => a + b, 0) / n;
+    const xStd = Math.sqrt(x.map(val => (val - xMean) ** 2).reduce((a, b) => a + b, 0) / n);
+    const xNorm = x.map(val => (val - xMean) / xStd);
+
+    // Use a dataset-specific learning rate if needed
+    const effectiveLearningRate = selectedDataset === 'housing-price' ? 1e-11 : learningRate;
+
+    for (let i = 0; i < iterations; i++) {
+      let cost = 0;
+      let grad0 = 0;
+      let grad1 = 0;
+
+      for (let j = 0; j < n; j++) {
+        const prediction = b0 + b1 * xNorm[j];
+        const error = prediction - y[j];
+        cost += error ** 2;
+        grad0 += error;
+        grad1 += error * xNorm[j];
+      }
+
+      b0 -= (effectiveLearningRate / n) * grad0;
+      b1 -= (effectiveLearningRate / n) * grad1;
+      
+      history.push({ iteration: i + 1, b0, b1, cost: cost / (2 * n) });
+    }
+
+    setTrainingHistory(history);
+    setCurrentStep(0);
+    setIsModelBuilt(true);
+    setIsPlaying(true);
+  };
+
+  const handleReset = () => {
+    setIsModelBuilt(false);
+    setTrainingHistory([]);
+    setCurrentStep(0);
+    setIsPlaying(false);
+  };
+  
+  React.useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isPlaying && currentStep < iterations - 1) {
+      timer = setTimeout(() => {
+        setCurrentStep(prev => prev + 1);
+      }, 100);
+    } else if (currentStep === iterations - 1) {
+      setIsPlaying(false);
+    }
+    return () => clearTimeout(timer);
+  }, [isPlaying, currentStep, iterations]);
+
+
+  const regressionLine = React.useMemo(() => {
+    if (trainingHistory.length === 0) return [];
+    const { b0, b1 } = trainingHistory[currentStep];
+
+    const x = currentDataset.data.map(d => (d as any)[xKey]);
+    const xMean = x.reduce((a, b) => a + b, 0) / x.length;
+    const xStd = Math.sqrt(x.map(val => (val - xMean) ** 2).reduce((a, b) => a + b, 0) / x.length);
+    
+    const xMin = Math.min(...x);
+    const xMax = Math.max(...x);
+
+    const yMin = b0 + b1 * ((xMin - xMean) / xStd);
+    const yMax = b0 + b1 * ((xMax - xMean) / xStd);
+
+    return [{ [xKey]: xMin, [yKey]: yMin }, { [xKey]: xMax, [yKey]: yMax }];
+
+  }, [currentStep, trainingHistory, currentDataset, xKey, yKey]);
+
+  const costData = React.useMemo(() => {
+     return trainingHistory.map(step => ({ iteration: step.iteration, cost: step.cost }));
+  }, [trainingHistory]);
+
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-12 max-w-5xl">
@@ -157,7 +268,7 @@ export default function BuildPage() {
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="dataset" className="text-sm font-medium">Select a Dataset:</Label>
-                   <Select value={selectedDataset} onValueChange={(value) => setSelectedDataset(value as keyof typeof datasets)}>
+                   <Select value={selectedDataset} onValueChange={(value) => setSelectedDataset(value as keyof typeof datasets)} disabled={isModelBuilt}>
                     <SelectTrigger id="dataset" className="w-full mt-2">
                       <SelectValue placeholder="Select a dataset" />
                     </SelectTrigger>
@@ -216,7 +327,7 @@ export default function BuildPage() {
                         <ResponsiveContainer>
                           <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
                             <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis type="number" dataKey={xKey} name={xKey} />
+                            <XAxis type="number" dataKey={xKey} name={xKey} allowDuplicatedCategory={false} />
                             <YAxis type="number" dataKey={yKey} name={yKey} />
                             <ChartTooltip cursor={{ strokeDasharray: '3 3' }} content={<ChartTooltipContent />} />
                             <Legend />
@@ -278,7 +389,7 @@ export default function BuildPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
                     <div className="space-y-2">
                         <Label htmlFor="model-dataset">Dataset for Model:</Label>
-                        <Select defaultValue={selectedDataset}>
+                        <Select value={selectedDataset} onValueChange={(value) => setSelectedDataset(value as keyof typeof datasets)} disabled={isModelBuilt}>
                             <SelectTrigger id="model-dataset">
                                 <SelectValue placeholder="Select a dataset" />
                             </SelectTrigger>
@@ -298,6 +409,7 @@ export default function BuildPage() {
                             step={0.001}
                             value={[learningRate]}
                             onValueChange={(vals) => setLearningRate(vals[0])}
+                            disabled={isModelBuilt}
                         />
                     </div>
                     <div className="space-y-2">
@@ -309,16 +421,98 @@ export default function BuildPage() {
                             step={10}
                             value={[iterations]}
                             onValueChange={(vals) => setIterations(vals[0])}
+                            disabled={isModelBuilt}
                         />
                     </div>
                 </div>
                 <div className="flex gap-4">
-                  <Button className="w-full">Build Model</Button>
-                  <Button variant="destructive" className="w-full">Reset</Button>
+                  <Button className="w-full" onClick={handleBuildModel} disabled={isModelBuilt}>Build Model</Button>
+                  <Button variant="destructive" className="w-full" onClick={handleReset} disabled={!isModelBuilt}>Reset</Button>
                 </div>
               </div>
             </CardContent>
           </Card>
+
+          {isModelBuilt && (
+            <Card>
+              <CardContent className="p-6">
+                <h2 className="flex items-center text-2xl font-semibold mb-4">
+                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mr-4">
+                    4
+                  </span>
+                  Model&apos;s Growth
+                </h2>
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                  Model built successfully. Use the controls to navigate through the steps of training.
+                </p>
+
+                <div className="flex flex-col items-center gap-4 mb-6">
+                    <div className='flex items-center justify-between w-full gap-4'>
+                        <Button onClick={() => setCurrentStep(s => Math.max(0, s - 1))} disabled={currentStep === 0}>Previous</Button>
+                        <Slider
+                            value={[currentStep]}
+                            onValueChange={(vals) => setCurrentStep(vals[0])}
+                            min={0}
+                            max={iterations - 1}
+                            step={1}
+                            className="w-full"
+                        />
+                        <Button onClick={() => setCurrentStep(s => Math.min(iterations - 1, s + 1))} disabled={currentStep === iterations - 1}>Next</Button>
+                    </div>
+                    <div className='flex items-center gap-4'>
+                        <p className="text-sm text-muted-foreground">Iteration: {currentStep + 1} / {iterations}</p>
+                        <Button variant="outline" size="icon" onClick={() => setIsPlaying(!isPlaying)}>
+                            {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                            <span className="sr-only">{isPlaying ? "Pause" : "Play"}</span>
+                        </Button>
+                    </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div>
+                    <h3 className="text-xl font-bold text-center mb-4">Linear Regression Model (Iteration {currentStep + 1})</h3>
+                    <Card className="overflow-hidden">
+                      <CardContent className="bg-secondary/30 p-4">
+                        <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
+                          <ResponsiveContainer>
+                            <ComposedChart data={currentDataset.data} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <XAxis type="number" dataKey={xKey} name={xKey} allowDuplicatedCategory={false} />
+                              <YAxis type="number" dataKey={yKey} name={yKey} />
+                              <ChartTooltip content={<ChartTooltipContent />} />
+                              <Legend />
+                              <Scatter name="Data Points" dataKey={yKey} fill="var(--color-data)" />
+                              <Line name="Best Fit Line" data={regressionLine} dataKey={yKey} stroke="var(--color-bestFit)" strokeWidth={2} dot={false} type="monotone" />
+                            </ComposedChart>
+                          </ResponsiveContainer>
+                        </ChartContainer>
+                      </CardContent>
+                    </Card>
+                  </div>
+                  <div>
+                     <h3 className="text-xl font-bold text-center mb-4">Cost vs Iteration (Iteration {currentStep + 1})</h3>
+                     <Card className="overflow-hidden">
+                      <CardContent className="bg-secondary/30 p-4">
+                        <ChartContainer config={chartConfig} className="aspect-video h-[350px] w-full">
+                           <ResponsiveContainer>
+                            <AreaChart data={costData.slice(0, currentStep + 1)} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <XAxis type="number" dataKey="iteration" name="Iteration" />
+                              <YAxis type="number" dataKey="cost" name="Cost" />
+                              <ChartTooltip content={<ChartTooltipContent />} />
+                              <Legend />
+                              <Area type="monotone" dataKey="cost" stroke="var(--color-cost)" fill="var(--color-cost)" fillOpacity={0.3} />
+                            </AreaChart>
+                          </ResponsiveContainer>
+                        </ChartContainer>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+
+              </CardContent>
+            </Card>
+          )}
 
         </div>
       </main>
