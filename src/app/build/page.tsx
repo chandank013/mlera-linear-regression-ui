@@ -134,7 +134,13 @@ export default function BuildPage() {
     const xNorm = x.map(val => (val - xMean) / xStd);
 
     // Use a dataset-specific learning rate if needed
-    const effectiveLearningRate = selectedDataset === 'housing-price' ? 1e-11 : learningRate;
+    let effectiveLearningRate = learningRate;
+    if (selectedDataset === 'housing-price') {
+      effectiveLearningRate = 1e-12; // A very small learning rate for this dataset
+    } else if (selectedDataset === 'salary-experience') {
+        effectiveLearningRate = 0.01;
+    }
+
 
     for (let i = 0; i < iterations; i++) {
       let cost = 0;
@@ -174,7 +180,7 @@ export default function BuildPage() {
       timer = setTimeout(() => {
         setCurrentStep(prev => prev + 1);
       }, 100);
-    } else if (currentStep === iterations - 1) {
+    } else if (currentStep >= iterations - 1) {
       setIsPlaying(false);
     }
     return () => clearTimeout(timer);
@@ -268,7 +274,10 @@ export default function BuildPage() {
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="dataset" className="text-sm font-medium">Select a Dataset:</Label>
-                   <Select value={selectedDataset} onValueChange={(value) => setSelectedDataset(value as keyof typeof datasets)} disabled={isModelBuilt}>
+                   <Select value={selectedDataset} onValueChange={(value) => {
+                       setSelectedDataset(value as keyof typeof datasets);
+                       handleReset();
+                    }} disabled={isModelBuilt}>
                     <SelectTrigger id="dataset" className="w-full mt-2">
                       <SelectValue placeholder="Select a dataset" />
                     </SelectTrigger>
@@ -389,7 +398,10 @@ export default function BuildPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
                     <div className="space-y-2">
                         <Label htmlFor="model-dataset">Dataset for Model:</Label>
-                        <Select value={selectedDataset} onValueChange={(value) => setSelectedDataset(value as keyof typeof datasets)} disabled={isModelBuilt}>
+                        <Select value={selectedDataset} onValueChange={(value) => {
+                            setSelectedDataset(value as keyof typeof datasets);
+                            handleReset();
+                        }} disabled={isModelBuilt}>
                             <SelectTrigger id="model-dataset">
                                 <SelectValue placeholder="Select a dataset" />
                             </SelectTrigger>
@@ -440,7 +452,7 @@ export default function BuildPage() {
                   <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold mr-4">
                     4
                   </span>
-                  Model's Growth
+                  Model&apos;s Growth
                 </h2>
                 <p className="text-muted-foreground leading-relaxed mb-6">
                   Model built successfully. Use the controls to navigate through the steps of training.
