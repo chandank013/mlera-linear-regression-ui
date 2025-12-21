@@ -95,7 +95,7 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:3000` in your browser.
+Open `http://localhost:9002` in your browser.
 
 ---
 
@@ -104,24 +104,12 @@ Open `http://localhost:3000` in your browser.
 The project is deployed on **Vercel**.
 
 * **Live Demo:** [https://mlera-linear-regression-ui.vercel.app/](https://mlera-linear-regression-ui.vercel.app/)
-* **GitHub Repository:** [https://github.com/](https://github.com/)<chandank013>/mlera-linear-regression-ui
-
+* **GitHub Repository:** [https://github.com/chandank013/mlera-linear-regression-ui](https://github.com/chandank013/mlera-linear-regression-ui)
 ---
 
 ## ⏱️ Time Taken
 
 Approx. **6–8 hours**
-
----
-
-## 📬 Submission Details
-
-Submitted via Google Form with:
-
-* GitHub repository link
-* Vercel live deployment link
-* Short description of approach
-* Approximate time taken
 
 ---
 
