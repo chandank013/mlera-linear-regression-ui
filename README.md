@@ -103,7 +103,7 @@ Open `http://localhost:9002` in your browser.
 
 The project is deployed on **Vercel**.
 
-* **Live Demo:** [https://mlera-linear-regression-ui-2r36.vercel.app](https://mlera-linear-regression-ui-2r36.vercel.app)
+* **Live Demo:** [https://mlera-linear-regression-ke88pntrp.vercel.app](https://mlera-linear-regression-ke88pntrp.vercel.app)
 * **GitHub Repository:** [https://github.com/chandank013/mlera-linear-regression-ui](https://github.com/chandank013/mlera-linear-regression-ui)
 ---
 
