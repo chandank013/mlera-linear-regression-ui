@@ -8,16 +8,16 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { Progress } from "@/components/ui/progress";
+} from "../../components/ui/breadcrumb.jsx";
+import { Button } from "../../components/ui/button.jsx";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "../../components/ui/card.jsx";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "../../components/ui/chart.jsx";
+import { Progress } from "../../components/ui/progress.jsx";
 import { ArrowRight, Check, ChevronLeft, Lightbulb, TriangleAlert, XIcon } from "lucide-react";
 import { Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, Line, Legend, ResponsiveContainer } from "recharts";
 import React, { useState, useMemo } from 'react';
-import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
+import { Label } from "../../components/ui/label.jsx";
+import { Slider } from "../../components/ui/slider.jsx";
 
 
 const scatterData = [

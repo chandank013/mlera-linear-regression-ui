@@ -2,9 +2,9 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Logo } from "@/components/icons"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { cn } from "@/lib/utils"
+import { Logo } from "../icons.jsx"
+import { ThemeToggle } from "../theme-toggle.jsx"
+import { cn } from "../../lib/utils.js"
 import { Button } from "../ui/button"
 import Image from "next/image"
 import { Avatar, AvatarFallback } from "../ui/avatar"

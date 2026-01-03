@@ -1,9 +1,9 @@
 import './globals.css';
-import { ThemeProvider } from '@/components/theme-provider';
-import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
-import { Toaster } from '@/components/ui/toaster';
-import { cn } from '@/lib/utils';
+import { ThemeProvider } from '../components/theme-provider.jsx';
+import { Navbar } from '../components/layout/navbar.jsx';
+import { Footer } from '../components/layout/footer.jsx';
+import { Toaster } from '../components/ui/toaster.jsx';
+import { cn } from '../lib/utils.js';
 
 export const metadata = {
   title: 'MLera - Interactive Machine Learning',

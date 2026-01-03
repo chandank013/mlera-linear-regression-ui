@@ -8,10 +8,10 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+} from "../../components/ui/breadcrumb.jsx";
+import { Button } from "../../components/ui/button.jsx";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "../../components/ui/card.jsx";
+import { Progress } from "../../components/ui/progress.jsx";
 import { ArrowRight, ChevronLeft, FlaskConical, Pause, Play } from "lucide-react";
 import React from 'react';
 import {
@@ -20,12 +20,12 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Label } from '@/components/ui/label';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+} from "../../components/ui/select.jsx"
+import { Label } from '../../components/ui/label.jsx';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table.jsx';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '../../components/ui/chart.jsx';
 import { CartesianGrid, Legend, ResponsiveContainer, Scatter, ScatterChart, XAxis, YAxis, Line, ComposedChart, AreaChart, Area } from 'recharts';
-import { Slider } from '@/components/ui/slider';
+import { Slider } from '../../components/ui/slider.jsx';
 
 const datasets = {
   "sales-revenue": {

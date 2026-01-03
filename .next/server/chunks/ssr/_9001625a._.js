@@ -15,12 +15,12 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
     throw e;
 })();
 (()=>{
-    const e = new Error("Cannot find module '@/components/layout/navbar'");
+    const e = new Error("Cannot find module '@/components/layout/navbar.jsx'");
     e.code = 'MODULE_NOT_FOUND';
     throw e;
 })();
 (()=>{
-    const e = new Error("Cannot find module '@/components/layout/footer'");
+    const e = new Error("Cannot find module '@/components/layout/footer.jsx'");
     e.code = 'MODULE_NOT_FOUND';
     throw e;
 })();
