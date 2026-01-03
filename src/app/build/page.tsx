@@ -8,10 +8,10 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+} from "../../components/ui/breadcrumb.jsx";
+import { Button } from "../../components/ui/button.jsx";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "../../components/ui/card.jsx";
+import { Progress } from "../../components/ui/progress.jsx";
 import { ArrowRight, ChevronLeft, FlaskConical, Pause, Play } from "lucide-react";
 import React from 'react';
 import {
@@ -20,12 +20,12 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Label } from '@/components/ui/label';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+} from "../../components/ui/select.jsx"
+import { Label } from '../../components/ui/label.jsx';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table.jsx';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '../../components/ui/chart.jsx';
 import { CartesianGrid, Legend, ResponsiveContainer, Scatter, ScatterChart, XAxis, YAxis, Line, ComposedChart, AreaChart, Area } from 'recharts';
-import { Slider } from '@/components/ui/slider';
+import { Slider } from '../../components/ui/slider.jsx';
 
 const datasets = {
   "sales-revenue": {
@@ -99,20 +99,13 @@ const chartConfig = {
   },
 };
 
-type TrainingStep = {
-  iteration: number;
-  b0: number;
-  b1: number;
-  cost: number;
-};
-
 export default function BuildPage() {
-  const [selectedDataset, setSelectedDataset] = React.useState<keyof typeof datasets>("sales-revenue");
+  const [selectedDataset, setSelectedDataset] = React.useState("sales-revenue");
   const [showTable, setShowTable] = React.useState(false);
   const [learningRate, setLearningRate] = React.useState(0.05);
   const [iterations, setIterations] = React.useState(100);
   const [isModelBuilt, setIsModelBuilt] = React.useState(false);
-  const [trainingHistory, setTrainingHistory] = React.useState<TrainingStep[]>([]);
+  const [trainingHistory, setTrainingHistory] = React.useState([]);
   const [currentStep, setCurrentStep] = React.useState(0);
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [costDomain, setCostDomain] = React.useState([0, 1]);
@@ -122,8 +115,8 @@ export default function BuildPage() {
   const yKey = currentDataset.columns[1];
 
   const { xDomain, yDomain } = React.useMemo(() => {
-    const xValues = currentDataset.data.map(d => (d as any)[xKey]);
-    const yValues = currentDataset.data.map(d => (d as any)[yKey]);
+    const xValues = currentDataset.data.map(d => d[xKey]);
+    const yValues = currentDataset.data.map(d => d[yKey]);
     const xMin = Math.min(...xValues);
     const xMax = Math.max(...xValues);
     const yMin = Math.min(...yValues);
@@ -140,9 +133,9 @@ export default function BuildPage() {
   const handleBuildModel = () => {
     let b0 = 0;
     let b1 = 0;
-    const history: TrainingStep[] = [];
-    const x = currentDataset.data.map(d => (d as any)[xKey]);
-    const y = currentDataset.data.map(d => (d as any)[yKey]);
+    const history = [];
+    const x = currentDataset.data.map(d => d[xKey]);
+    const y = currentDataset.data.map(d => d[yKey]);
     const n = x.length;
 
     // Normalize features
@@ -195,7 +188,7 @@ export default function BuildPage() {
   };
   
   React.useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer;
     if (isPlaying && currentStep < iterations - 1) {
       timer = setTimeout(() => {
         setCurrentStep(prev => prev + 1);
@@ -211,7 +204,7 @@ export default function BuildPage() {
     if (!isModelBuilt || trainingHistory.length === 0) return [];
     const { b0, b1 } = trainingHistory[currentStep];
 
-    const x = currentDataset.data.map(d => (d as any)[xKey]);
+    const x = currentDataset.data.map(d => d[xKey]);
     const xMean = x.reduce((a, b) => a + b, 0) / x.length;
     const xStd = Math.sqrt(x.map(val => (val - xMean) ** 2).reduce((a, b) => a + b, 0) / x.length);
     
@@ -297,7 +290,7 @@ export default function BuildPage() {
                 <div>
                   <Label htmlFor="dataset" className="text-sm font-medium">Select a Dataset:</Label>
                    <Select value={selectedDataset} onValueChange={(value) => {
-                       setSelectedDataset(value as keyof typeof datasets);
+                       setSelectedDataset(value);
                        handleReset();
                     }} disabled={isModelBuilt}>
                     <SelectTrigger id="dataset" className="w-full mt-2">
@@ -341,7 +334,7 @@ export default function BuildPage() {
                           {currentDataset.data.map((row, rowIndex) => (
                             <TableRow key={rowIndex}>
                               {currentDataset.columns.map(col => (
-                                <TableCell key={col}>{(row as any)[col]}</TableCell>
+                                <TableCell key={col}>{row[col]}</TableCell>
                               ))}
                             </TableRow>
                           ))}
@@ -425,7 +418,7 @@ export default function BuildPage() {
                     <div className="space-y-2">
                         <Label htmlFor="model-dataset">Dataset for Model:</Label>
                         <Select value={selectedDataset} onValueChange={(value) => {
-                            setSelectedDataset(value as keyof typeof datasets);
+                            setSelectedDataset(value);
                             handleReset();
                         }} disabled={isModelBuilt}>
                             <SelectTrigger id="model-dataset">

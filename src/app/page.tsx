@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '../components/ui/button.jsx';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card.jsx';
 import { ArrowRight, BrainCircuit, LineChart, Table2 } from 'lucide-react';
 import Image from 'next/image';
-import { placeholderImages } from '@/lib/placeholder-images';
+import { placeholderImages } from '../lib/placeholder-images.js';
 
 const content = [
   {

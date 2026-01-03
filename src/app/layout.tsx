@@ -1,21 +1,18 @@
-import type { Metadata } from 'next';
 import './globals.css';
-import { ThemeProvider } from '@/components/theme-provider';
-import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
-import { Toaster } from '@/components/ui/toaster';
-import { cn } from '@/lib/utils';
+import { ThemeProvider } from '../components/theme-provider.jsx';
+import { Navbar } from '../components/layout/navbar.jsx';
+import { Footer } from '../components/layout/footer.jsx';
+import { Toaster } from '../components/ui/toaster.jsx';
+import { cn } from '../lib/utils.js';
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'MLera - Interactive Machine Learning',
   description: 'Recreation of the MLera UI for the internship assignment.',
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>

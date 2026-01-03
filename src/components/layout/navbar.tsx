@@ -2,13 +2,13 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Logo } from "@/components/icons"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { cn } from "@/lib/utils"
-import { Button } from "../ui/button"
+import { Logo } from "../icons.jsx"
+import { ThemeToggle } from "../theme-toggle.jsx"
+import { cn } from "../../lib/utils.js"
+import { Button } from "../ui/button.jsx"
 import Image from "next/image"
-import { Avatar, AvatarFallback } from "../ui/avatar"
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet"
+import { Avatar, AvatarFallback } from "../ui/avatar.jsx"
+import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet.jsx"
 import { Menu } from "lucide-react"
 
 const navLinks = [
